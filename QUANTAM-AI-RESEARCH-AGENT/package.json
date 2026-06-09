@@ -1,0 +1,14 @@
+{
+  "name": "stock-research-agent-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node start-dev.js",
+    "build": "npm --prefix frontend run build",
+    "lint": "npm --prefix frontend run lint",
+    "preview": "npm --prefix frontend run preview",
+    "frontend-install": "npm --prefix frontend install",
+    "install-all": "node start-dev.js --install-only",
+    "backend-start": "node start-dev.js --backend-only"
+  }
+}
