@@ -283,3 +283,41 @@ def simulate_history(base_price: float, count: int) -> list:
         prices.append(current)
     prices.append(base_price)
     return prices
+
+
+def is_ticker_valid(symbol: str) -> bool:
+    """
+    Checks if a ticker symbol actually exists on Yahoo Finance.
+    If it's a completely fake ticker, history will be empty or yfinance raises ValueErrors.
+    If it's a network error, we return True to allow mock fallbacks for valid tickers,
+    but if it's a clear 'Quote not found' or delisted state, we return False.
+    """
+    try:
+        resolved = resolve_symbol(symbol)
+        
+        # Test basic initialization (triggers ValueErrors on bad formatting e.g. ISIN check)
+        ticker = yf.Ticker(resolved)
+        
+        # Fetch 1-day history to check existence
+        hist = ticker.history(period="1d")
+        if hist.empty:
+            # Check if there is any basic symbol data or if it's completely missing
+            info = ticker.info
+            # If info is empty or missing key metrics, it's invalid
+            if not info or not any(k in info for k in ["regularMarketPrice", "longName", "symbol"]):
+                logger.warning(f"Ticker validation: Ticker {resolved} returned empty history and info.")
+                return False
+        return True
+    except ValueError as ve:
+        # e.g., ValueError: Invalid ISIN number: FAKESTOCK123
+        logger.warning(f"Ticker validation: Ticker {symbol} triggered ValueError: {str(ve)}")
+        return False
+    except Exception as e:
+        err_msg = str(e).lower()
+        if "not found" in err_msg or "invalid" in err_msg or "404" in err_msg:
+            logger.warning(f"Ticker validation: Ticker {symbol} failed with error: {str(e)}")
+            return False
+        # For connection timeouts/DNS failures, return True to allow mock engine fallbacks
+        logger.info(f"Ticker validation: Connection error or standard warning during check: {str(e)}. Assuming True.")
+        return True
+

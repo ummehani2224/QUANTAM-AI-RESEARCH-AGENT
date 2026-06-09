@@ -108,7 +108,11 @@ Return ONLY a valid JSON object matching this structure:
   "summary": "narrative summary of articles, sentiment drivers, and bullish/bearish factor explanation (1-2 paragraphs)",
   "positive_drivers": ["list of primary positive/bullish drivers (e.g. strong earnings beat, upgrades)"],
   "negative_drivers": ["list of primary negative/bearish concerns (e.g. supply chain, regulatory lawsuits)"],
-  "events": ["specific corporate events extracted (e.g. Earnings, Product Launch)"]
+  "events": ["specific corporate events extracted (e.g. Earnings, Product Launch)"],
+  "catalyst_type": "identify primary driver category (e.g., Earnings, Regulatory, Product Launch, Macro, M&A)",
+  "most_important_event": "describe the single most important event or news story and its structural impact",
+  "market_narrative": "synthesize the current consensus or psychological market narrative surrounding the stock",
+  "ai_news_summary": "a premium institutional summary of recent news and sentiment flow (1 paragraph)"
 }}
 
 Articles:
@@ -129,12 +133,16 @@ Return ONLY the raw JSON. Do not write markdown tags or backticks (no ```json).
                 "positive_ratio": round(pos_ratio, 2),
                 "negative_ratio": round(neg_ratio, 2),
                 "events": llm_res.get("events", list(extracted_events)),
-                "fallback_active": False
+                "fallback_active": False,
+                "catalyst_type": llm_res.get("catalyst_type", list(extracted_events)[0] if extracted_events else "Macro Sentiment"),
+                "most_important_event": llm_res.get("most_important_event", rule_pos_drivers[0] if rule_pos_drivers else "N/A"),
+                "market_narrative": llm_res.get("market_narrative", f"Market psychology is characterized as primarily {calculated_sentiment.lower()} based on recent media flow."),
+                "ai_news_summary": llm_res.get("ai_news_summary", llm_res.get("summary", calculated_reason))
             }
             
         except Exception as e:
             logger.warning(f"Groq Sentiment Agent reasoning failed: {str(e)}. Fallback to lexicon engine.")
-            # Fall back to local calculation below
+            # Fall back to lexicon engine below
             
     # ── Fallback Return ──
     return {
@@ -147,5 +155,9 @@ Return ONLY the raw JSON. Do not write markdown tags or backticks (no ```json).
         "positive_ratio": round(pos_ratio, 2),
         "negative_ratio": round(neg_ratio, 2),
         "events": list(extracted_events),
-        "fallback_active": True
+        "fallback_active": True,
+        "catalyst_type": list(extracted_events)[0] if extracted_events else "Macro Sentiment",
+        "most_important_event": rule_pos_drivers[0] if calculated_sentiment == "Positive" else (rule_neg_drivers[0] if calculated_sentiment == "Negative" else "General news flow stabilization."),
+        "market_narrative": f"Market psychology is characterized as primarily {calculated_sentiment.lower()} based on recent media flow.",
+        "ai_news_summary": f"Recent media tracking shows {pos_count} positive, {neg_count} negative, and {neu_count} neutral headlines."
     }

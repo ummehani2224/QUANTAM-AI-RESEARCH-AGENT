@@ -111,6 +111,83 @@ def analyze(technical: dict, fundamental: dict, sentiment: dict) -> dict:
     if not rule_catalysts:
         rule_catalysts = ["Upcoming corporate earnings release or sector product announcements."]
     
+    rule_risk_register = [
+        {
+            "category": "Competition Risk",
+            "severity": "Medium",
+            "probability": "Medium",
+            "explanation": "Market saturation and rival product development may compress pricing margins."
+        },
+        {
+            "category": "Valuation Risk",
+            "severity": "Medium" if fundamental.get("valuation_score", 50) >= 40 else "High",
+            "probability": "Medium",
+            "explanation": f"Trading at PE multiple of {fundamental.get('metrics', {}).get('pe_ratio', 'N/A')}x, subject to valuation multiple compression."
+        },
+        {
+            "category": "Market Risk",
+            "severity": "High" if volatility >= 30.0 else "Medium",
+            "probability": "High" if volatility >= 20.0 else "Medium",
+            "explanation": f"Annualized asset volatility stands at {volatility:.1f}%, raising structural drawdown probability."
+        },
+        {
+            "category": "Execution Risk",
+            "severity": "Medium",
+            "probability": "Low",
+            "explanation": "Operational and supply chain execution challenges under tight macroeconomic environments."
+        },
+        {
+            "category": "Macro Risk",
+            "severity": "Medium",
+            "probability": "Medium",
+            "explanation": "Global interest rate policies, inflation pressures, and capital market fluctuations."
+        },
+        {
+            "category": "Regulatory Risk",
+            "severity": "Low" if sentiment.get("sentiment") != "Negative" else "Medium",
+            "probability": "Medium" if sentiment.get("sentiment") == "Negative" else "Low",
+            "explanation": "Compliance, antitrust laws, or policy shifts that could impact business operations."
+        }
+    ]
+
+    rule_catalyst_calendar = [
+        {
+            "event": "Earnings Release",
+            "expected_date": "Next Quarter",
+            "importance": "High",
+            "potential_impact": "Verify top and bottom line expansion rates and margin sustainability."
+        },
+        {
+            "event": "Product Launch",
+            "expected_date": "Next 6 Months",
+            "importance": "Medium",
+            "potential_impact": "Introduction of key feature sets to bolster competitive advantages."
+        },
+        {
+            "event": "Investor Day",
+            "expected_date": "Upcoming Date",
+            "importance": "Medium",
+            "potential_impact": "Strategic executive updates regarding long-term revenue targets."
+        },
+        {
+            "event": "Major Economic Event",
+            "expected_date": "Ongoing",
+            "importance": "High",
+            "potential_impact": "Fed rate decisions and macroeconomic indicator releases affecting equity beta."
+        }
+    ]
+
+    rule_bull_case = [
+        f"Technical indicators highlight a {technical.get('trend')} posture with {technical.get('trend_strength','moderate').lower()} trend strength.",
+        f"Fundamental metrics exhibit {fundamental.get('fundamental').lower()} financial health (Score: {fundamental.get('health_score')}/100).",
+        f"Sentiment signals are predominantly {sentiment.get('sentiment').lower()} with catalysts emerging from news events."
+    ]
+    rule_bear_case = [
+        f"Volatile market patterns (volatility: {volatility:.1f}%) could trigger sudden technical drawdowns.",
+        f"Valuation multiples are pricing in a premium (PE: {fundamental.get('metrics', {}).get('pe_ratio', 'N/A')}x), risking re-rating.",
+        f"Negative headlines or sector headwinds may damp near-term investor interest."
+    ]
+
     calculated_summary = (
         f"Orchestrated analysis indicates a **{calculated_bias}** market bias with "
         f"an aggregated confidence score of **{calculated_confidence}%** and a **{calculated_risk}** risk profile. "
@@ -135,7 +212,7 @@ You are an institutional financial analyst. Synthesize the reports from 3 specia
 - Distance to Support: {technical.get('distance_to_support')}%
 - Distance to Resistance: {technical.get('distance_to_resistance')}%
 - Annualized Volatility: {technical.get('volatility')}%
-- Multi-Timeframe Trend Structures: {technical.get('timeframe_analysis')}
+- Multi-Timeframe Trend Structures (SMA-20): {technical.get('timeframe_analysis')}
 - Signals Triggered: {technical.get('signals')}
 - Technical Risk Factors: {technical.get('risk_factors')}
 - Summary: {technical.get('summary')}
@@ -179,7 +256,25 @@ Return ONLY a valid JSON object matching this structure:
   "watchlist_factors": ["list of target watchlist triggers, price levels, or catalysts to monitor"],
   "potential_risks": ["list of structural risks or downside catalysts specific to this analysis"],
   "future_catalysts": ["list of upside drivers or catalyst events to monitor"],
-  "summary": "comprehensive executive synthesis narrative integrating all agents (2 paragraphs)"
+  "summary": "comprehensive executive synthesis narrative integrating all agents (2 paragraphs)",
+  "bull_case": ["list of 3 points explaining why bulls are right, using technical, fundamental, and sentiment data"],
+  "bear_case": ["list of 3 points explaining why bears are right, using technical, fundamental, and sentiment data"],
+  "risk_register": [
+    {{
+      "category": "Competition Risk" | "Valuation Risk" | "Market Risk" | "Execution Risk" | "Macro Risk" | "Regulatory Risk",
+      "severity": "Low" | "Medium" | "High",
+      "probability": "Low" | "Medium" | "High",
+      "explanation": "Specific explanation of this risk factor for this stock."
+    }}
+  ],
+  "catalyst_calendar": [
+    {{
+      "event": "Earnings Release" | "Product Launch" | "Investor Day" | "Major Economic Event" | "Industry Event",
+      "expected_date": "Approximate date or timeframe",
+      "importance": "Low" | "Medium" | "High",
+      "potential_impact": "Details of potential stock price impact."
+    }}
+  ]
 }}
 
 Return ONLY the raw JSON. Do not write markdown tags or backticks (no ```json).
@@ -196,7 +291,11 @@ Return ONLY the raw JSON. Do not write markdown tags or backticks (no ```json).
                 "potential_risks": llm_res.get("potential_risks", rule_risks),
                 "future_catalysts": llm_res.get("future_catalysts", rule_catalysts),
                 "summary": llm_res.get("summary", calculated_summary),
-                "fallback_active": False
+                "fallback_active": False,
+                "bull_case": llm_res.get("bull_case", rule_bull_case),
+                "bear_case": llm_res.get("bear_case", rule_bear_case),
+                "risk_register": llm_res.get("risk_register", rule_risk_register),
+                "catalyst_calendar": llm_res.get("catalyst_calendar", rule_catalyst_calendar)
             }
             
         except Exception as e:
@@ -213,5 +312,9 @@ Return ONLY the raw JSON. Do not write markdown tags or backticks (no ```json).
         "potential_risks": rule_risks,
         "future_catalysts": rule_catalysts,
         "summary": calculated_summary,
-        "fallback_active": True
+        "fallback_active": True,
+        "bull_case": rule_bull_case,
+        "bear_case": rule_bear_case,
+        "risk_register": rule_risk_register,
+        "catalyst_calendar": rule_catalyst_calendar
     }

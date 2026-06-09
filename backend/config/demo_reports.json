@@ -1,0 +1,552 @@
+{
+  "AAPL": {
+    "stock": "AAPL",
+    "current_price": 301.54,
+    "change_pct": -1.89,
+    "technical": {
+      "trend": "Neutral",
+      "confidence": 60,
+      "reason": "The current price of AAPL ($301.54) is above its 50-day moving average ($282.06) and 200-day moving average ($265.14), indicating a bullish trend in the medium to long term. However, the short-term trend structures (SMA-20) show a strong bearish trend in the 15m, 1h, and 4h timeframes, which may suggest a potential reversal. The RSI (14) is at 53.4, which is neutral, and the MACD value is 7.41 with a signal of 9.04, indicating a potential buy signal but with a bearish histogram.",
+      "summary": "The current price of AAPL ($301.54) is above its 50-day moving average ($282.06) and 200-day moving average ($265.14), indicating a bullish trend in the medium to long term. However, the short-term trend structures (SMA-20) show a strong bearish trend in the 15m, 1h, and 4h timeframes, which may suggest a potential reversal. The RSI (14) is at 53.4, which is neutral, and the MACD value is 7.41 with a signal of 9.04, indicating a potential buy signal but with a bearish histogram.",
+      "trend_strength": "Strong",
+      "support": 292.68,
+      "resistance": 315.2,
+      "support_level": 292.68,
+      "resistance_level": 315.2,
+      "distance_to_support": 5.0,
+      "distance_to_resistance": 5.0,
+      "volatility": 19.1,
+      "signals": [
+        "Price above 50-day MA",
+        "Price above 200-day MA",
+        "MACD value above signal line"
+      ],
+      "risk_factors": [
+        "High annualized volatility (19.1%)",
+        "Short-term trend structures showing strong bearish trend",
+        "Distance to support and resistance levels are relatively close (5.00%)"
+      ],
+      "timeframe_analysis": {
+        "15m": "Strong Bearish",
+        "1h": "Strong Bearish",
+        "4h": "Strong Bearish",
+        "1d": "Bearish",
+        "1w": "Strong Bullish"
+      },
+      "fallback_active": false,
+      "rsi_interpretation": "RSI is at 53.4, indicating neutral momentum. The stock is neither overbought nor oversold, leaving room for consolidation or trend continuation.",
+      "macd_interpretation": "MACD is at 7.41, above signal of 9.04. The bearish histogram suggests near-term consolidation despite the long-term uptrend.",
+      "moving_average_analysis": "AAPL is trading at $301.54, which is significantly above its 50d MA ($282.06) and 200d MA ($265.14). The long-term moving average structure remains strongly bullish, serving as a primary support band.",
+      "key_technical_conclusion": "While the long-term technical indicators show strong structural health, short-term momentum is consolidative. A break above $315.20 or consolidation near $292.68 will dictate the next major trend phase."
+    },
+    "fundamental": {
+      "fundamental": "Strong",
+      "confidence": 83,
+      "reason": "AAPL demonstrates strong financial health with a significant market capitalization of $4.43T and substantial net income of $122,575,003,648. The company's year-over-year revenue growth of 16.6% and earnings growth of 21.8% indicate a robust growth momentum. However, the P/E ratio of 36.5x may suggest a relatively high valuation. Overall, AAPL's financial performance is solid, but investors should be cautious of potential valuation risks. The company's ability to maintain its growth trajectory and navigate the competitive technology landscape will be crucial in sustaining its financial health and attractiveness to investors.",
+      "summary": "AAPL demonstrates strong financial health with a significant market capitalization of $4.43T and substantial net income of $122,575,003,648. The company's year-over-year revenue growth of 16.6% and earnings growth of 21.8% indicate a robust growth momentum. However, the P/E ratio of 36.5x may suggest a relatively high valuation. Overall, AAPL's financial performance is solid, but investors should be cautious of potential valuation risks. The company's ability to maintain its growth trajectory and navigate the competitive technology landscape will be crucial in sustaining its financial health and attractiveness to investors.",
+      "health_score": 92,
+      "valuation_score": 70,
+      "growth_score": 85,
+      "strengths": [
+        "Strong brand recognition and customer loyalty",
+        "Significant cash reserves and low debt",
+        "Highly profitable with substantial net income",
+        "Robust growth momentum with increasing revenue and earnings"
+      ],
+      "weaknesses": [
+        "Relatively high P/E ratio indicating potential overvaluation",
+        "Dependence on a limited number of high-margin products",
+        "Intense competition in the technology industry",
+        "Potential risks associated with global supply chain disruptions"
+      ],
+      "metrics": {
+        "pe_ratio": 36.5,
+        "revenue_growth_pct": 16.6,
+        "earnings_growth_pct": 21.8,
+        "market_cap": "$4.43T",
+        "total_revenue": 451442016256,
+        "net_income": 122575003648
+      },
+      "fallback_active": false,
+      "growth_outlook": "Apple's top-line revenue growth of 16.6% and earnings expansion of 21.8% highlight robust premium hardware and services growth. Expected to sustain double-digit expansion with upcoming AI upgrades.",
+      "valuation_outlook": "Trading at 36.5x PE multiple, which represents a historical premium. While justified by cash flows and high returns on capital, multiple compression is a core risk if hardware cycles slow.",
+      "ai_commentary": "Apple displays prime fundamental strength. Cash flow generation remains industry-leading, and the growing services division provides high-margin stability that offsets hardware cyclicality."
+    },
+    "sentiment": {
+      "sentiment": "Positive",
+      "confidence": 80,
+      "reason": "Recent news articles surrounding Apple (AAPL) indicate a predominantly positive sentiment, driven by anticipation of the WWDC 2026 event and potential AI upgrades. The introduction of new tools to help parents limit kids' exposure to inappropriate content and manage screen time is also viewed favorably. Despite a temporary reversal in share price following Siri news, analysts remain bullish, citing the company's strong fundamentals and potential for upside. The fact that Apple stock is trading near its all-time high further underscores the positive outlook, with some analysts predicting a 30% upside ahead of WWDC.",
+      "summary": "Recent news articles surrounding Apple (AAPL) indicate a predominantly positive sentiment, driven by anticipation of the WWDC 2026 event and potential AI upgrades. The introduction of new tools to help parents limit kids' exposure to inappropriate content and manage screen time is also viewed favorably. Despite a temporary reversal in share price following Siri news, analysts remain bullish, citing the company's strong fundamentals and potential for upside. The fact that Apple stock is trading near its all-time high further underscores the positive outlook, with some analysts predicting a 30% upside ahead of WWDC.",
+      "positive_drivers": [
+        "Strong earnings potential",
+        "WWDC 2026 and AI upgrades anticipation",
+        "Introduction of parental control tools",
+        "Trading near all-time high",
+        "Analyst upgrades and positive predictions"
+      ],
+      "negative_drivers": [
+        "Temporary share price reversal after Siri news",
+        "Potential regulatory challenges"
+      ],
+      "positive_ratio": 0.25,
+      "negative_ratio": 0.0,
+      "events": [
+        "WWDC 2026",
+        "Earnings reports",
+        "Product launches and AI upgrades"
+      ],
+      "articles": [
+        {
+          "title": "Apple shares reverse lower after big Siri news. Why we're not bothered",
+          "sentiment": "neutral",
+          "source": "CNBC",
+          "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOcjZXMlp0bFRBLUxfTGk1ZW5PU1FMRFREbFZBRU56WFI2OElGM1VvbFBGU3ZnZ21TY2UtRGF2UmIxS1BiVkdfYWZwVUtKSWhXeUNDQWI2ZUJjcnJMZXZjWUNtbzBTVV8tOWRYR0pJV2YtZ3ZoNDRGbFQ5R1pKbUR6TmNRX3pNV05kOFZLUk9UdHZ3amt2aERwLW9USS1GX1JUajV0RXdKQk8?oc=5",
+          "publish_time": "Mon, 08 Jun 2026 19:27:00 GMT"
+        },
+        {
+          "title": "Is Apple Inc. (AAPL) A Good Stock To Buy Now?",
+          "sentiment": "positive",
+          "source": "Yahoo Finance",
+          "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOb2V6Rng4azBaN2FOaVpfRVNVZEhjbDQ5QWcxRFZVMWV2aFV5aHMwRkRwbnI4SXU1enFFZlFsb2NPd1lVTW10dGxMZ2stWHFjdW82aE1VZS13RENKdV9hTHJVUmxIUTZZUklDRVlldzFwYkRUV2tzU2hnSDFncmdZSVJjdFZnM0ctV19YRTYwWEExc0RK?oc=5",
+          "publish_time": "Mon, 08 Jun 2026 15:19:57 GMT"
+        },
+        {
+          "title": "Apple Stock (AAPL) Opinions on WWDC 2026 and AI Upgrades",
+          "sentiment": "positive",
+          "source": "Quiver Quantitative",
+          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQdmR1ZzloUzRNVkRncXFXNGlKeGhLOXpMXy1hWWkzWjRIOVRueU1HUzBhclJ0WERodldjc3Jub1JwVUdObS1OQnRMajVpRUg5Z0plbzU4alNJTzczRnZzVUhVcWdrME50UDVaejBQOU4xa2Y0MlZEN3Q0aDZxMTNUZVVHTm9xZURWN2xMb0xJY1VTdC10TTZycg?oc=5",
+          "publish_time": "Mon, 08 Jun 2026 14:04:00 GMT"
+        },
+        {
+          "title": "Apple\u2019s new tools help parents limit kids\u2019 nudity, gore and screen time",
+          "sentiment": "neutral",
+          "source": "Stock Titan",
+          "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQWnZoMWpfZGhUb3ZONFZ3Q2pCeEpQdzRjNFpBcmdET3R6d25mbVdSNS1fTHBBX3ZHRlU3LTdSVkQxUWtfb3ZsUWpjcUFGbDAtZkRBYXBVZ2c4aXI0WGtTd0VwNlZ3MzVIQWE3aWJpZEhiUGxURkpWWXlaNFg1bTlBd2ZxUmh2RVZTMF92QnBxRQ?oc=5",
+          "publish_time": "Mon, 08 Jun 2026 18:13:00 GMT"
+        },
+        {
+          "title": "Top Analyst Eyes 30% Upside On AAPL Stock Ahead Of WWDC: No 'Treadmill Approach' Expected As John Ternus",
+          "sentiment": "neutral",
+          "source": "Benzinga",
+          "link": "https://news.google.com/rss/articles/CBMimgJBVV95cUxQTHV2T1dUNXlIdXk2X3l3LWhlb3BwTVFndF9NaVhnXzlnbWVDOXd4RVFBNHZNUW9tVG5Wakk3ekFKdHZreDQ2ZDVBa25GX05WUUJCR0FmQk5hNHFwTWxqblZLWVVhdHFPenluWXQySUl3d1FNUWxTM2lERnhKTXRVeHR3Q0ZHYXRsYXd3dExhX2FiZ3NuT2ItN0ZuN2dBRUhzdW5MR01jdnR3RXlwY3lDQjdDdEhHek1YMm0ySmswTG53Qnh3MGRvUmpXcEwwR3FsQ3pDOHZNVUI1enVJSE5qSi1rM1ppQTVyTVNacEFGd3FxQXN6bUVTTk42MlRTblpjNkpabEZCNlgxR2VyMm85Uzc1dDN0MHpIYnc?oc=5",
+          "publish_time": "Mon, 08 Jun 2026 11:33:17 GMT"
+        },
+        {
+          "title": "Apple Inc (NASDAQ:AAPL) Meets All Quality Criteria of the Caviar Cruise Stock Screener",
+          "sentiment": "neutral",
+          "source": "ChartMill",
+          "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxNWUFqaFBpbVRYckllQ0s2cjNlLUVTRHFCU21YRDc3LTUzSm1SN3R4M3lXSXhOc08wZVVKYVhJRmVISTNWckY3RC1OWmNocFk2aEg5SUZJUkhudG9XbS1DUXlJQVNCdDBrdFdhTENOUHk0NnhqSTlnWDFkbDJpZFQ0a09EU2dZdW10akozem01U1lpaUNBblQtSzZCeUlNWDRQcUltcy0tdEZiRkZ6R2ExZnJUMmVYWXRERnhjWk1oSk5BNXhWc0tKNlV4N0Y3UlBp?oc=5",
+          "publish_time": "Mon, 08 Jun 2026 12:50:32 GMT"
+        },
+        {
+          "title": "Apple stock price prediction after WWDC 2026: With Apple (AAPL) trading near its all-time high of $302.25,",
+          "sentiment": "neutral",
+          "source": "The Economic Times",
+          "link": "https://news.google.com/rss/articles/CBMi4wJBVV95cUxOb2x6YklqSjNLMWtsRnR3RzBzNTFxVkVmQ0t1SnV4Q0ppRkZmLVlHamhiRUhFRC1MT210RlF2U0stWGpXTVhJQXRod1BZY094aENtcE5YOUl0VUdvOGg0QTZUM2pYRFFUcGxYYWRTZTA4Y0QzRWhDNVdKaC10QThkMnNpRmF4TVYzVGtKX2FVRENzTVBsU3NORE1hUGtnVnZKM3IxUmtXZDNobVozMnZpM0QyQTFuNUdEVkNwUmlwTUI4YzNCcFF5dnJYRWFnd2dWeVB4OWN6UTRMaUJLLTBVOGMxVDJPczJMcnVGbjJzZzBLVTY0RDU4OUVXekVoWm50SGZoeDR6S0ZpbEcxclBZcU1JamZoNER4eXdxWXFFekVleFBqQ3owMFNxUHNVb2VVTmctRl9LUzRQWXdPd0lVMGdLOGNBbDQ0YU1jSGdNRnNzdndabUZHaEFJekU2OHR1TmVR0gHoAkFVX3lxTFBja0lFWlg1N01xRmhlWXNTZ002bXpvVzJSdWdNa0tCTHhpbFlkOGFZS2FDUG1mUnJ4cEF1SEhiTGtUcXBwUTNXR0x3cHNfTVZjTWQycVRZemVZYjRVS3dObEhITHdCMGthQU1ScWdfTEpHVERkZWJaemFGUFRSNGt6bDZpTkhka3NiMWR2UkZnUktCa0k2ckRNbHJvRHdhamhfMnRub3dPdXV6NjVpck44V0JZaUExTHNFRXlZWEhDSUJ3encwNVNnVWx1WW5yeGxncTVCX1dHNzdzUkQ5Z1Z3dFNLY1BwUGsxbm1waUN0X24tTUdmM1RXTWs2M0hYQlFHQmM2ZFV2QUNacWdjeFVCTjNrOFdxb3JLREdFcnNnZVZkNk05bEZxM09mMlJ4Zy0tcTdpd2tGd1k0RG1hM25qeFJvQ0tCSzdBQlhNcTB5TzVCT2k3eURjY3FEdWtDRDJ3dXJKRnQ1cg?oc=5",
+          "publish_time": "Mon, 08 Jun 2026 16:19:14 GMT"
+        },
+        {
+          "title": "Apple Stock Nears All-Time High: Where Will It End The Year?",
+          "sentiment": "neutral",
+          "source": "24/7 Wall St.",
+          "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQUDBBQWFaRXB5dlJ3a0FKaUR3X2pHdE9rSHJ1M2JySFBic2xfTFpRdE9WSVJfN2RLNXB3emRVVGJPZm9iVkJiMDRaanNzaDhaYXlOUW0tZlY3eXN2Z3JyYVNVRVJxVGcxZEtnYndvT244b0RLSHp0aGRoRktEV2VhQVNQQ1E3R19zMUMxY3FpU0tLX1hWSVQ0aXlRcm4zWmVTNV91bA?oc=5",
+          "publish_time": "Fri, 05 Jun 2026 19:01:06 GMT"
+        }
+      ],
+      "fallback_active": false,
+      "catalyst_type": "WWDC & AI Upgrades",
+      "most_important_event": "Anticipation of AI upgrades at WWDC 2026, driving analysts to predict a 30% upside for the stock.",
+      "market_narrative": "Highly bullish market narrative centered on Apple's transition to an AI-driven product cycle, neutralizing short-term Siri concerns.",
+      "ai_news_summary": "Media coverage is highly positive, focused on WWDC 2026 expectations and new safety tools, offset only by temporary Siri related fluctuations."
+    },
+    "final_decision": {
+      "market_bias": "Neutral",
+      "confidence": 73,
+      "risk": "Medium",
+      "key_drivers": [
+        "Strong brand recognition and customer loyalty",
+        "Significant cash reserves and low debt",
+        "Highly profitable with substantial net income",
+        "Robust growth momentum with increasing revenue and earnings",
+        "Anticipation of WWDC 2026 and AI upgrades",
+        "Introduction of parental control tools",
+        "Trading near all-time high",
+        "Analyst upgrades and positive predictions"
+      ],
+      "watchlist_factors": [
+        "50-day moving average ($282.06)",
+        "200-day moving average ($265.14)",
+        "Support Level: $292.68",
+        "Resistance Level: $315.2",
+        "RSI (14) at 53.4",
+        "MACD value above signal line",
+        "WWDC 2026 event",
+        "Earnings reports",
+        "Product launches and AI upgrades"
+      ],
+      "summary": "The current market analysis of Apple (AAPL) indicates a neutral market bias, with a confidence level of 73% and a medium risk classification. The company's strong financial health, significant cash reserves, and low debt contribute to its robust growth momentum, with increasing revenue and earnings. However, the relatively high P/E ratio and dependence on a limited number of high-margin products pose potential risks. The anticipation of WWDC 2026 and AI upgrades, introduction of parental control tools, and trading near all-time high are key drivers of the current market sentiment. \nThe technical analysis report highlights a neutral trend bias, with a 60% confidence level, and identifies the 50-day and 200-day moving averages as key support levels. The fundamental analysis report indicates a strong solvency posture, with an 83% confidence level, and highlights the company's highly profitable nature and robust growth momentum. The headline sentiment report indicates a positive narrative verdict, with an 80% confidence level, driven by anticipation of the WWDC 2026 event and potential AI upgrades. Overall, the analysis suggests that investors should monitor key drivers, watchlist factors, and potential risks, while also keeping an eye on future catalysts that could impact the company's stock price.",
+      "potential_risks": [
+        "Relatively high P/E ratio indicating potential overvaluation",
+        "Dependence on a limited number of high-margin products",
+        "Intense competition in the technology industry",
+        "Potential risks associated with global supply chain disruptions",
+        "Temporary share price reversal after Siri news",
+        "Potential regulatory challenges"
+      ],
+      "future_catalysts": [
+        "WWDC 2026 event",
+        "AI upgrades",
+        "Introduction of new products and services",
+        "Expansion into new markets",
+        "Continued growth momentum with increasing revenue and earnings"
+      ],
+      "fallback_active": false,
+      "bull_case": [
+        "WWDC 2026 AI integration expected to trigger a major hardware replacement cycle.",
+        "Services high-margin revenue stream continues to expand, providing recurring cash flow.",
+        "Industry-leading balance sheet with over $100B in net cash supports aggressive buybacks."
+      ],
+      "bear_case": [
+        "Premium valuation at 36.5x P/E limits multiple expansion and increases vulnerability to misses.",
+        "Dependence on the iPhone hardware cycle poses risk if consumer spending weakens globally.",
+        "Antitrust scrutiny in the US and Europe creates ongoing regulatory headwinds."
+      ],
+      "risk_register": [
+        {
+          "category": "Competition Risk",
+          "severity": "Medium",
+          "probability": "Medium",
+          "explanation": "Intense rivalry in AI features and premium hardware, particularly in China."
+        },
+        {
+          "category": "Valuation Risk",
+          "severity": "High",
+          "probability": "Medium",
+          "explanation": "PE multiple of 36.5x is elevated relative to historical averages."
+        },
+        {
+          "category": "Market Risk",
+          "severity": "Medium",
+          "probability": "Low",
+          "explanation": "Subject to broader macroeconomic headwinds and tech sector rotation."
+        },
+        {
+          "category": "Execution Risk",
+          "severity": "Medium",
+          "probability": "Medium",
+          "explanation": "Deploying on-device AI features successfully without battery or privacy issues."
+        },
+        {
+          "category": "Macro Risk",
+          "severity": "Medium",
+          "probability": "Low",
+          "explanation": "Slowing global consumer spending could impact discretionary hardware purchases."
+        },
+        {
+          "category": "Regulatory Risk",
+          "severity": "High",
+          "probability": "High",
+          "explanation": "Antitrust actions by SEC/EU targeting App Store fees and ecosystem lockdown."
+        }
+      ],
+      "catalyst_calendar": [
+        {
+          "event": "WWDC 2026 Keynote",
+          "expected_date": "June 15, 2026",
+          "importance": "High",
+          "potential_impact": "Unveiling of Apple Intelligence suite, key to hardware growth outlook."
+        },
+        {
+          "event": "Quarterly Earnings",
+          "expected_date": "July 30, 2026",
+          "importance": "High",
+          "potential_impact": "Validation of services growth and iPhone revenue stability."
+        },
+        {
+          "event": "iPhone 18 Launch",
+          "expected_date": "September 2026",
+          "importance": "High",
+          "potential_impact": "First full cycle of AI-integrated hardware sales volume metrics."
+        }
+      ]
+    },
+    "system_status": {
+      "backend_status": "Online",
+      "groq_status": "Online",
+      "yfinance_status": "Online",
+      "news_status": "Online",
+      "cache_status": "Miss",
+      "cache_ttl_sec": 300,
+      "execution_time_sec": 10.865
+    }
+  },
+  "NVDA": {
+    "stock": "NVDA",
+    "current_price": 208.64,
+    "change_pct": 1.73,
+    "technical": {
+      "trend": "Neutral",
+      "confidence": 60,
+      "reason": "The current price of NVDA is $208.64, which is above its 50-day moving average of $203.97 and 200-day moving average of $188.51, indicating a bullish trend in the medium to long term. However, the short-term trend is bearish as indicated by the multi-timeframe trend structures, with the 15m timeframe being the only bullish signal. The RSI (14) is at 46.9, which is in the neutral zone, and the MACD value is 1.60 with a signal of 3.73, indicating a potential buy signal but the histogram is negative, suggesting a bearish momentum. The annualized volatility is high at 46.2%, which increases the risk of significant price movements. The distance to support and resistance levels is 5.00% each, indicating a potential for a breakout or a breakdown.",
+      "summary": "The current price of NVDA is $208.64, which is above its 50-day moving average of $203.97 and 200-day moving average of $188.51, indicating a bullish trend in the medium to long term. However, the short-term trend is bearish as indicated by the multi-timeframe trend structures, with the 15m timeframe being the only bullish signal. The RSI (14) is at 46.9, which is in the neutral zone, and the MACD value is 1.60 with a signal of 3.73, indicating a potential buy signal but the histogram is negative, suggesting a bearish momentum. The annualized volatility is high at 46.2%, which increases the risk of significant price movements. The distance to support and resistance levels is 5.00% each, indicating a potential for a breakout or a breakdown.",
+      "trend_strength": "Strong",
+      "support": 205.1,
+      "resistance": 235.47,
+      "support_level": 205.1,
+      "resistance_level": 235.47,
+      "distance_to_support": 5.0,
+      "distance_to_resistance": 5.0,
+      "volatility": 46.2,
+      "signals": [
+        "Price above 50-day MA",
+        "Price above 200-day MA",
+        "MACD value above signal line",
+        "15m timeframe trend is bullish"
+      ],
+      "risk_factors": [
+        "High annualized volatility",
+        "Short-term bearish trend in 1h, 4h, and 1d timeframes",
+        "RSI in neutral zone, potential for overbought or oversold conditions"
+      ],
+      "timeframe_analysis": {
+        "15m": "Bullish",
+        "1h": "Bearish",
+        "4h": "Strong Bearish",
+        "1d": "Strong Bearish",
+        "1w": "Strong Bullish"
+      },
+      "fallback_active": false,
+      "rsi_interpretation": "RSI stands at 46.9, indicating neutral momentum with substantial headroom before reaching overbought territory.",
+      "macd_interpretation": "MACD is at 1.60, trading below the signal line of 3.73. The negative histogram indicates short-term bearish consolidation.",
+      "moving_average_analysis": "NVDA is trading at $208.64, holding above its 50-day moving average ($203.97) and 200-day moving average ($188.51), confirming a robust long-term bull market structure.",
+      "key_technical_conclusion": "Long-term trends are structurally bullish, but short-term price action remains sideways. Investors should watch for a breakout above $235.47 or support defense at $205.10."
+    },
+    "fundamental": {
+      "fundamental": "Strong",
+      "confidence": 88,
+      "reason": "NVIDIA Corporation (NVDA) demonstrates exceptional financial health, with a high net income and substantial year-over-year revenue growth. The company's strong growth momentum is a significant strength, with an 85.2% increase in revenue and a remarkable 214.5% increase in earnings. However, the P/E ratio of 32.0x may indicate a relatively high valuation, which could pose a risk to investors. The company's market capitalization of $5.05T and total revenue of $253.49B underscore its position as a market leader in its industry.",
+      "summary": "NVIDIA Corporation (NVDA) demonstrates exceptional financial health, with a high net income and substantial year-over-year revenue growth. The company's strong growth momentum is a significant strength, with an 85.2% increase in revenue and a remarkable 214.5% increase in earnings. However, the P/E ratio of 32.0x may indicate a relatively high valuation, which could pose a risk to investors. The company's market capitalization of $5.05T and total revenue of $253.49B underscore its position as a market leader in its industry.",
+      "health_score": 95,
+      "valuation_score": 70,
+      "growth_score": 98,
+      "strengths": [
+        "High year-over-year revenue growth",
+        "Exceptional year-over-year earnings growth",
+        "Strong net income",
+        "Substantial market capitalization"
+      ],
+      "weaknesses": [
+        "High P/E ratio indicating potential overvaluation",
+        "Rapid growth may be difficult to sustain in the long term"
+      ],
+      "metrics": {
+        "pe_ratio": 32.0,
+        "revenue_growth_pct": 85.2,
+        "earnings_growth_pct": 214.5,
+        "market_cap": "$5.05T",
+        "total_revenue": 253491003392,
+        "net_income": 159612993536
+      },
+      "fallback_active": false,
+      "growth_outlook": "NVIDIA's growth is exceptional, with year-over-year revenue expanding by 85.2% and earnings rising 214.5% due to dominant datacenter demand for AI accelerators.",
+      "valuation_outlook": "Trading at 32.0x P/E, representing a very attractive multiple relative to its triple-digit earnings growth rate and price-to-growth (PEG) safety.",
+      "ai_commentary": "NVIDIA has an unmatched fundamental moat. High operating margins and industry-wide dominance in AI platforms provide massive earnings stability, though cyclical hardware risk remains."
+    },
+    "sentiment": {
+      "sentiment": "Neutral",
+      "confidence": 60,
+      "reason": "Recent news articles surrounding NVDA have presented a mixed sentiment. On one hand, concerns over potential backdoor AI chip sales to China have led to a decline in stock price. Additionally, the emergence of rival companies such as Cerebras has put pressure on Nvidia's market position. On the other hand, Nvidia's CEO has expressed optimism about the company's future, citing the 'beginning' of AI technology, and some analysts have predicted a positive outlook for the stock in 2027. The comparison with other stocks such as Marvell and Salesforce has also sparked debate about the best investment option.",
+      "summary": "Recent news articles surrounding NVDA have presented a mixed sentiment. On one hand, concerns over potential backdoor AI chip sales to China have led to a decline in stock price. Additionally, the emergence of rival companies such as Cerebras has put pressure on Nvidia's market position. On the other hand, Nvidia's CEO has expressed optimism about the company's future, citing the 'beginning' of AI technology, and some analysts have predicted a positive outlook for the stock in 2027. The comparison with other stocks such as Marvell and Salesforce has also sparked debate about the best investment option.",
+      "positive_drivers": [
+        "Nvidia CEO's optimistic outlook on AI technology",
+        "Predicted positive stock performance in 2027",
+        "Strong potential for growth in the AI sector"
+      ],
+      "negative_drivers": [
+        "Concerns over backdoor AI chip sales to China",
+        "Emergence of rival companies such as Cerebras",
+        "Recent decline in stock price"
+      ],
+      "positive_ratio": 0.12,
+      "negative_ratio": 0.12,
+      "events": [
+        "Earnings reports",
+        "Product launches",
+        "CEO statements on AI technology"
+      ],
+      "articles": [
+        {
+          "title": "Nvidia Stock Falls On Concerns Of Backdoor AI Chip Sales To China",
+          "sentiment": "negative",
+          "source": "Investor's Business Daily",
+          "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOeVJwd292MU1RQmlaa1dvYWdpeVJVSS1ZOVA4WVpDdmVFSFhVRjBLNUZfTTUyOVJEcjdQT2FzOWJfb0NmTjQyLWF4YzBjUl9xQTZwNkJnUU15a04taWhfcm5sS21vd0wzWl9odmJKcjI3YTBEZzI4MjFVV3NlRVQyLWpmVW0xV0diMTVkUA?oc=5",
+          "publish_time": "Fri, 05 Jun 2026 20:12:00 GMT"
+        },
+        {
+          "title": "Meet the Super Semiconductor Stock Crushing Nvidia in 2026 With a Return of 120%",
+          "sentiment": "neutral",
+          "source": "The Motley Fool",
+          "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPZVlzbWVSSllZWmp6UGpaSDZYcmFCX3JieUdJUUxoYlU1ZFgwNENUUXA5SWNJMEdNLXZOTWNjMzAzamVGTnFEVzU0dmRaaFd2OVljcUdnaGpkNWpHVzlSRlJGNzZnenQzdlVzQkJGaVVvRlJpd3Y4Q05wclkzQnh4UXR1Uk5CNjBwY1lkVWMzY3oxaktzSVE?oc=5",
+          "publish_time": "Fri, 05 Jun 2026 14:45:00 GMT"
+        },
+        {
+          "title": "Stocks making the biggest moves premarket: Nvidia, Marvell, Flex and more",
+          "sentiment": "neutral",
+          "source": "CNBC",
+          "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPdzd2SERVRGtJTV9MTVJFR1R5LVhRTFVMTWJnU292V0pMb2FDdExrVXBBS0dwakxiZnQzd2MwWkJIZGNRN29xa2ZwS2ljWjI1VXJhS0xZQzZhX1Z2SzRyOXk1d29jQXNybW0xWkJlVDQ5ZFE5ZlRDcWhJNmM2cmt4ZTc2Tk5wRWZieHhBRFg1VWJEN01ySEU0eDJEVjNxZjB4eDQwNXpnYkt6bzg?oc=5",
+          "publish_time": "Mon, 08 Jun 2026 11:48:39 GMT"
+        },
+        {
+          "title": "Why Is NVDA Stock Rising In Premarket?",
+          "sentiment": "neutral",
+          "source": "Yahoo Finance",
+          "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQeGNUN2pnT0Y4OURwSlFkMDdBSUdlQ3loSkxLWnpBdXpYZWVfQ1JlUEhSZ1h5cGc5cFIwcS1zRzRWelJlSkR6SkxZOTV3aUkwUktsX001RXJOSHZlTFlaLWJlS2djYjVNV1psZkJQX2U5WDlsQ0FQNXZtSklQOGhMLWNyZ0plV0UwUXhjZGN3LU1NZENBcWVVdGVqeC0?oc=5",
+          "publish_time": "Mon, 08 Jun 2026 09:06:23 GMT"
+        },
+        {
+          "title": "Nvidia CEO Shrugs Off Tech Stock Rout With AI Just \u2018Beginning\u2019",
+          "sentiment": "neutral",
+          "source": "Bloomberg.com",
+          "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQTTRtOTZ0Zm1GaExWdUI2VGVqUFFGQ1BnU1dDWTBlRUpPR2NvLWVMclJnMGVYWGM5UVB6N0h3M1c2RjRIYjJRazRmUlBBdlVHYnZZdVJ5VElnTDBJYlNqSGNZc3A0MmpYVmt5bHdSTEgtQkJPWlkyQU5zS1puZE5tRWczMzNtLUhZcTduc2FaZzg4QzF2OG42TTJKdU5xU0o4V29NaUtkaHRBNmFJbkFENg?oc=5",
+          "publish_time": "Mon, 08 Jun 2026 03:03:00 GMT"
+        },
+        {
+          "title": "Nvidia vs. Salesforce vs. Marvell Technology: Which Is the Best Stock to Buy?",
+          "sentiment": "neutral",
+          "source": "Morningstar",
+          "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxObXlQaFNORlByVVg5SV92VERCdUg0RnpqQmxCTHI1cDlVM2pVVDVCZEUtMWlzNnFfNVMtSm5HT1IxSzZQWHpDa21wdGJTZ1JaTTV2X0p6c2FPSkNOdFcxZV8xYXhZS3dkRDhGV2pWZ3lYTDdPSWc4UDg4TFNJb3hVeEVJbldGd09wRWY2SjhoeGZTOFkzNWVreGZrV0ZCSzB0a1IxTkcwanZ0T1gyT1Fz?oc=5",
+          "publish_time": "Fri, 05 Jun 2026 09:10:09 GMT"
+        },
+        {
+          "title": "\u201cNVIDIA rival\u201d Cerebras surges as Wall Street urges 'buy' after stock nearly halves three weeks post-IPO",
+          "sentiment": "positive",
+          "source": "\u5bcc\u9014\u725b\u725b",
+          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOWEVMU2NVYTkyOVA4QjduWUdqT2UtVU5QRjVya0RuRm9kSklXakVteUlKOEVyOXI3ZUk3bXE0RlpBLURNekxhSzNxa0I0MHF3WGhjMURIaUczTlF3TWxTZWVDT1MxeU9xVWpjcUJLQy1rVUtJZWQ3eDVxN3ZwaWswYVY1Smh5WU4tQ01rSkRxaHJXLTBrdERKTGk5WjMtSGdCN0E?oc=5",
+          "publish_time": "Mon, 08 Jun 2026 13:54:00 GMT"
+        },
+        {
+          "title": "Nvidia Stock Will Trade at This Price in 2027",
+          "sentiment": "neutral",
+          "source": "24/7 Wall St.",
+          "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPU0MwUjlDaU45SXNaYjR6RFpkaWcxWDVXdFh6VGNJUmptdmdmODdOVDBNcXk5a1djNXV0NGpweDVmTVBQaU5fOHNBY1hfQ3V2R2pYSy1JdUJlUlZmNWtKak1zc1FFU3FINnN5cmVZWTViUUlXQ0NFZkVqeTNoenVjQlJvMVo4cElaNDQ0dkhIVE1HRnM?oc=5",
+          "publish_time": "Mon, 08 Jun 2026 14:27:47 GMT"
+        }
+      ],
+      "fallback_active": false,
+      "catalyst_type": "AI chip demand & China curbs",
+      "most_important_event": "Geopolitical export controls and concerns over backdoor AI chip sales to China, offset by optimistic CEO comments on AI growth.",
+      "market_narrative": "Balanced psychology as market concerns over competition from Cerebras are matched by structural hyperscaler CapEx demand.",
+      "ai_news_summary": "Headline sentiment is mixed-to-neutral, showing worries on China curbs counterbalanced by positive analyst long-term price targets."
+    },
+    "final_decision": {
+      "market_bias": "Neutral",
+      "confidence": 69,
+      "risk": "Medium",
+      "key_drivers": [
+        "Strong year-over-year revenue and earnings growth",
+        "High annualized volatility",
+        "Mixed sentiment from recent news articles",
+        "Bullish medium to long term trend indicators",
+        "Bearish short-term trend indicators"
+      ],
+      "watchlist_factors": [
+        "Support level at $205.1",
+        "Resistance level at $235.47",
+        "RSI (14) in the neutral zone",
+        "MACD value and signal line",
+        "Earnings reports and product launches"
+      ],
+      "summary": "The current market analysis of NVDA presents a neutral bias, with a confidence level of 69% and a medium risk classification. The company's strong financial health, with high year-over-year revenue and earnings growth, is a significant strength. However, the high P/E ratio and rapid growth may pose risks to investors. The technical analysis indicates a bullish medium to long term trend, but a bearish short-term trend. The sentiment from recent news articles is mixed, with concerns over backdoor AI chip sales to China and the emergence of rival companies, but also optimism from Nvidia's CEO and predicted positive stock performance in 2027.\n\nThe watchlist factors include the support level at $205.1, resistance level at $235.47, RSI (14) in the neutral zone, and MACD value and signal line. The potential risks include the high P/E ratio, rapid growth, concerns over backdoor AI chip sales to China, and the emergence of rival companies. The future catalysts include Nvidia's CEO optimistic outlook on AI technology, predicted positive stock performance in 2027, strong potential for growth in the AI sector, and upcoming product launches and earnings reports. Overall, the analysis suggests that investors should closely monitor the company's financial health, technical indicators, and news sentiment to make informed decisions.",
+      "potential_risks": [
+        "High P/E ratio indicating potential overvaluation",
+        "Rapid growth may be difficult to sustain in the long term",
+        "Concerns over backdoor AI chip sales to China",
+        "Emergence of rival companies"
+      ],
+      "future_catalysts": [
+        "Nvidia CEO's optimistic outlook on AI technology",
+        "Predicted positive stock performance in 2027",
+        "Strong potential for growth in the AI sector",
+        "Upcoming product launches and earnings reports"
+      ],
+      "fallback_active": false,
+      "bull_case": [
+        "Monopolistic dominance in high-performance AI chipsets and CUDA software ecosystem.",
+        "Hyper-growth earnings profile with triple-digit net income expansion.",
+        "Unprecedented CapEx spending pipelines from top cloud service providers."
+      ],
+      "bear_case": [
+        "Export restrictions limiting chip shipments to major international markets like China.",
+        "Competitors like Cerebras raising capital and launching rival hardware architectures.",
+        "High market volatility (46.2% annualized) exposes the stock to sharp macro-driven drawdowns."
+      ],
+      "risk_register": [
+        {
+          "category": "Competition Risk",
+          "severity": "High",
+          "probability": "High",
+          "explanation": "Competitor hardware like Cerebras and custom hyperscaler ASICs are gaining traction."
+        },
+        {
+          "category": "Valuation Risk",
+          "severity": "Medium",
+          "probability": "Medium",
+          "explanation": "Attractive PE multiple relative to growth, but highly sensitive to any semiconductor cycle peak."
+        },
+        {
+          "category": "Market Risk",
+          "severity": "High",
+          "probability": "High",
+          "explanation": "Asset beta is extremely high, making it volatile during tech sector rotations."
+        },
+        {
+          "category": "Execution Risk",
+          "severity": "Medium",
+          "probability": "Medium",
+          "explanation": "Next-generation Blackwell yield bottlenecks and supply chain complexity."
+        },
+        {
+          "category": "Macro Risk",
+          "severity": "Medium",
+          "probability": "Medium",
+          "explanation": "Hyperscaler capital expenditure deceleration if AI software monetization slows down."
+        },
+        {
+          "category": "Regulatory Risk",
+          "severity": "High",
+          "probability": "High",
+          "explanation": "Geopolitical chip embargoes and SEC compliance rules regarding overseas shipments."
+        }
+      ],
+      "catalyst_calendar": [
+        {
+          "event": "Quarterly Earnings Release",
+          "expected_date": "August 18, 2026",
+          "importance": "High",
+          "potential_impact": "Validating Blackwell platform ramp schedules and datacenter demand trends."
+        },
+        {
+          "event": "Developer Conference",
+          "expected_date": "October 2026",
+          "importance": "Medium",
+          "potential_impact": "Unveiling enterprise AI software integrations and SDK upgrades."
+        },
+        {
+          "event": "Regulatory Export Review",
+          "expected_date": "Ongoing",
+          "importance": "High",
+          "potential_impact": "Geopolitical policy updates affecting access to Chinese AI markets."
+        }
+      ]
+    },
+    "system_status": {
+      "backend_status": "Online",
+      "groq_status": "Online",
+      "yfinance_status": "Online",
+      "news_status": "Online",
+      "cache_status": "Miss",
+      "cache_ttl_sec": 300,
+      "execution_time_sec": 9.743
+    }
+  }
+}

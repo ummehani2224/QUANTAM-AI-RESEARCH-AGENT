@@ -12,10 +12,8 @@ class AnalyzeRequest(BaseModel):
     Input schema for the stock analyzer.
     Example: { "symbol": "AAPL" }
     """
-    symbol: str  # e.g. "AAPL", "TSLA", "RELIANCE.NS"
+    symbol: str
 
-
-# ─── Agent Output Schemas ─────────────────────────────────────────────────────
 
 class TechnicalResult(BaseModel):
     """Output from the Technical Analysis Agent (combines code indicator math and LLM output)"""
@@ -35,6 +33,10 @@ class TechnicalResult(BaseModel):
     risk_factors: List[str]          # Technical risk warning indicators
     timeframe_analysis: Dict[str, str] # Multi-timeframe trend mappings (15m, 1h, 4h, 1d, 1w)
     fallback_active: bool = False   # True if fallback engine was activated
+    rsi_interpretation: str = ""    # V2 field
+    macd_interpretation: str = ""   # V2 field
+    moving_average_analysis: str = "" # V2 field
+    key_technical_conclusion: str = "" # V2 field
 
 
 class FundamentalResult(BaseModel):
@@ -50,6 +52,9 @@ class FundamentalResult(BaseModel):
     weaknesses: List[str]          # Core capital/solvency risks
     metrics: Dict[str, Any]         # Dictionary of raw data metrics
     fallback_active: bool = False   # True if fallback engine was activated
+    growth_outlook: str = ""        # V2 field
+    valuation_outlook: str = ""    # V2 field
+    ai_commentary: str = ""         # V2 field
 
 
 class SentimentResult(BaseModel):
@@ -65,7 +70,10 @@ class SentimentResult(BaseModel):
     events: List[str]               # Specific corporate/macro events tagged
     articles: List[Dict[str, Any]] = [] # Real news articles fetched
     fallback_active: bool = False   # True if fallback engine was activated
-
+    catalyst_type: str = ""         # V2 field
+    most_important_event: str = ""  # V2 field
+    market_narrative: str = ""      # V2 field
+    ai_news_summary: str = ""       # V2 field
 
 
 class FinalDecision(BaseModel):
@@ -79,6 +87,10 @@ class FinalDecision(BaseModel):
     potential_risks: List[str] = [] # Specific downside triggers/risks
     future_catalysts: List[str] = [] # Upcoming upside catalysts/events
     fallback_active: bool = False   # True if fallback engine was activated
+    bull_case: List[str] = []       # V2 field
+    bear_case: List[str] = []       # V2 field
+    risk_register: List[Dict[str, Any]] = [] # V2 field
+    catalyst_calendar: List[Dict[str, Any]] = [] # V2 field
 
 
 # ─── Full Response Schema ─────────────────────────────────────────────────────
@@ -105,3 +117,5 @@ class AnalyzeResponse(BaseModel):
     sentiment: SentimentResult
     final_decision: FinalDecision
     system_status: SystemStatus = None # System performance & fallback statistics
+    timeline: List[Dict[str, Any]] = [] # Stage execution timeline logs
+

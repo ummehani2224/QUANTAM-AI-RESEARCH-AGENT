@@ -166,7 +166,11 @@ Return ONLY a valid JSON object matching this structure:
   "confidence": 0-100 (integer representing technical conviction),
   "summary": "technical summary, trend explanation, and market structure analysis (1-2 paragraphs)",
   "signals": ["list of key technical signals triggered (e.g. Price above 50-day MA)"],
-  "risk_factors": ["list of technical risk factors (e.g. RSI overbought, high volatility)"]
+  "risk_factors": ["list of technical risk factors (e.g. RSI overbought, high volatility)"],
+  "rsi_interpretation": "explain what the RSI score of {rsi:.1f} means for the investor in the current context",
+  "macd_interpretation": "explain what the MACD value of {macd:.2f} (Signal: {macd_signal:.2f}) means for momentum",
+  "moving_average_analysis": "analyze the price relative to the 50d MA (${ma_50:.2f}) and 200d MA (${ma_200:.2f})",
+  "key_technical_conclusion": "a single paragraph summarizing the core actionable technical conclusion for the investor"
 }}
 
 Return ONLY the raw JSON. Do not write markdown tags or backticks (no ```json).
@@ -191,6 +195,10 @@ Return ONLY the raw JSON. Do not write markdown tags or backticks (no ```json).
                 "signals": llm_res.get("signals", rule_signals),
                 "risk_factors": llm_res.get("risk_factors", rule_risk_factors),
                 "timeframe_analysis": timeframe_trends,
+                "rsi_interpretation": llm_res.get("rsi_interpretation", f"RSI is at {rsi:.1f}, reflecting neutral price momentum."),
+                "macd_interpretation": llm_res.get("macd_interpretation", f"MACD is at {macd:.2f} relative to signal {macd_signal:.2f}."),
+                "moving_average_analysis": llm_res.get("moving_average_analysis", f"Price relative to 50d MA (${ma_50:.2f}) and 200d MA (${ma_200:.2f})."),
+                "key_technical_conclusion": llm_res.get("key_technical_conclusion", f"The technical setup indicates a {calculated_trend.lower()} momentum posture."),
                 "fallback_active": False
             }
             
@@ -215,5 +223,10 @@ Return ONLY the raw JSON. Do not write markdown tags or backticks (no ```json).
         "signals": rule_signals,
         "risk_factors": rule_risk_factors,
         "timeframe_analysis": timeframe_trends,
+        "rsi_interpretation": f"RSI stands at {rsi:.1f}, indicating neutral relative strength.",
+        "macd_interpretation": f"MACD is currently {macd:.2f} with a signal line of {macd_signal:.2f}.",
+        "moving_average_analysis": f"Price stands at ${price:.2f} relative to 50d MA (${ma_50:.2f}) and 200d MA (${ma_200:.2f}).",
+        "key_technical_conclusion": f"Technical factors align to suggest a consolidative and primarily {calculated_trend.lower()} stance.",
         "fallback_active": True
     }
+

@@ -276,3 +276,72 @@ button, .btn-primary, .btn-secondary {
   font-size: 80px !important;
   letter-spacing: -0.055em !important;
 }
+
+/* Print Media Styles */
+@media print {
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide screen-only components */
+  #root > div > header,
+  #root > div > main,
+  .fixed,
+  button,
+  form,
+  .quantum-card,
+  footer {
+    display: none !important;
+  }
+
+  /* Display and format printable report */
+  .printable-report {
+    display: block !important;
+    color: #000000 !important;
+    background: #ffffff !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 20mm !important;
+    box-shadow: none !important;
+  }
+
+  /* Specific typography styling for printable dossier */
+  .printable-report h1,
+  .printable-report h2,
+  .printable-report h3,
+  .printable-report p,
+  .printable-report span,
+  .printable-report div,
+  .printable-report li {
+    color: #000000 !important;
+  }
+
+  .printable-report h1 {
+    font-size: 28pt !important;
+    font-weight: 800 !important;
+  }
+
+  .printable-report h2 {
+    font-size: 14pt !important;
+    font-weight: 700 !important;
+    border-bottom: 2px solid #000000 !important;
+    padding-bottom: 4px !important;
+  }
+
+  .printable-report h3 {
+    font-size: 11pt !important;
+    font-weight: 700 !important;
+  }
+
+  .printable-report p, 
+  .printable-report li {
+    font-size: 10pt !important;
+    line-height: 1.5 !important;
+  }
+}
+

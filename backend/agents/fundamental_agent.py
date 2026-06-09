@@ -156,7 +156,10 @@ Return ONLY a valid JSON object matching this structure:
   "growth_score": 0-100 (integer representing growth momentum),
   "summary": "financial health summary, growth analysis, and valuation commentary (1-2 paragraphs)",
   "strengths": ["list of company financial strengths (e.g. attractive P/E, strong cashflow)"],
-  "weaknesses": ["list of corporate weaknesses/risks (e.g. high debt, slow growth)"]
+  "weaknesses": ["list of corporate weaknesses/risks (e.g. high debt, slow growth)"],
+  "growth_outlook": "explain the company's growth outlook and trajectory for investors",
+  "valuation_outlook": "explain the company's valuation outlook, PE multiple rationale, and pricing safety",
+  "ai_commentary": "overall institutional investment analysis of corporate fundamental quality (1 paragraph)"
 }}
 
 Return ONLY the raw JSON. Do not write markdown tags or backticks (no ```json).
@@ -192,7 +195,10 @@ Return ONLY the raw JSON. Do not write markdown tags or backticks (no ```json).
                 "strengths": llm_res.get("strengths", rule_strengths),
                 "weaknesses": llm_res.get("weaknesses", rule_weaknesses),
                 "metrics": raw_metrics,
-                "fallback_active": False
+                "fallback_active": False,
+                "growth_outlook": llm_res.get("growth_outlook", f"YoY revenue growth stands at {rev_growth:.1f}% and earnings expansion at {earn_growth:.1f}%."),
+                "valuation_outlook": llm_res.get("valuation_outlook", f"The trailing P/E ratio is at {pe_ratio if pe_ratio else 'N/A'}x, representing {fundamental.lower()} value pricing."),
+                "ai_commentary": llm_res.get("ai_commentary", f"Fundamental posture is evaluated as {fundamental.lower()} with health index at {health}/100 and growth index at {gro}/100.")
             }
             
         except Exception as e:
@@ -211,5 +217,8 @@ Return ONLY the raw JSON. Do not write markdown tags or backticks (no ```json).
         "strengths": rule_strengths,
         "weaknesses": rule_weaknesses,
         "metrics": raw_metrics,
-        "fallback_active": True
+        "fallback_active": True,
+        "growth_outlook": f"YoY revenue growth stands at {rev_growth:.1f}% and earnings expansion at {earn_growth:.1f}%.",
+        "valuation_outlook": f"The trailing P/E ratio is at {pe_ratio if pe_ratio else 'N/A'}x, representing {calculated_fundamental.lower()} value pricing.",
+        "ai_commentary": f"Fundamental posture is evaluated as {calculated_fundamental.lower()} with health index at {calculated_health}/100 and growth index at {calculated_growth}/100."
     }

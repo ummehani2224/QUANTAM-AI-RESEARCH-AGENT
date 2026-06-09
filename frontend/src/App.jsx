@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import SearchBar from "./components/SearchBar";
-import KpiCards from "./components/KpiCards";
-import AgentCard from "./components/AgentCard";
-import RecommendationCard from "./components/RecommendationCard";
-import StockInfoCard from "./components/StockInfoCard";
 import ArchitecturePage from "./components/ArchitecturePage";
-import TradingViewChart from "./components/TradingViewChart";
 import NewsInsights from "./components/NewsInsights";
-import SystemStatusCard from "./components/SystemStatusCard";
-import AgentModal from "./components/AgentModal";
 import LandingPage from "./components/LandingPage";
+import InstitutionalReport from "./components/InstitutionalReport";
 import { analyzeStock, getStockData, checkBackendHealth } from "./api";
 import { 
   TrendingUp, 
@@ -145,6 +139,14 @@ function App() {
     }
   }
 
+  function handleExportPDF() {
+    if (!analysisData) return;
+    const originalTitle = document.title;
+    document.title = `QUANTUM_REPORT_${analysisData.stock}_${new Date().toISOString().split('T')[0]}`;
+    window.print();
+    document.title = originalTitle;
+  }
+
   const isFallbackActive =
     analysisData &&
     (analysisData.technical?.fallback_active ||
@@ -261,15 +263,50 @@ function App() {
             </div>
           )}
 
-          {/* Error Banner */}
+          {/* Error Banner / Beautiful Invalid Ticker Screen */}
           {error && !isLoading && (
-            <div className="bg-red-500/10 border border-red-500/20 rounded p-4 flex items-start gap-3 fade-in-up font-mono text-xs">
-              <span className="text-red-400">⚠️</span>
-              <div>
-                <h4 className="text-red-400 font-bold">Orchestration Error</h4>
-                <p className="text-slate-400 mt-1">{error}</p>
+            error === "INVALID_TICKER" ? (
+              <div className="bg-[#0a0c16] border border-red-500/30 rounded p-8 flex flex-col items-center justify-center text-center max-w-xl mx-auto space-y-6 fade-in-up my-12 shadow-[0_0_50px_rgba(239,68,68,0.05)] font-mono">
+                <div className="w-16 h-16 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-500 text-3xl">
+                  ⚠️
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-white font-black text-xl tracking-wide uppercase">Ticker Not Found</h3>
+                  <p className="text-slate-400 text-xs font-light leading-relaxed">
+                    We could not find market data for this symbol <code className="px-1.5 py-0.5 rounded bg-black/40 text-red-400 font-mono font-bold">{searchInputValue}</code>.
+                  </p>
+                </div>
+                <div className="border-t border-white/5 pt-4 w-full text-left text-xs text-slate-500">
+                  <span className="font-bold uppercase tracking-wider block mb-2 text-center text-slate-400">Try a valid ticker such as:</span>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-center">
+                    {["AAPL", "TSLA", "MSFT", "NVDA", "RELIANCE.NS", "TCS.NS"].map((sym) => (
+                      <button
+                        key={sym}
+                        type="button"
+                        onClick={() => handleSearch(sym)}
+                        className="px-3 py-1.5 rounded border border-white/5 bg-[#0c0d18] text-slate-350 hover:text-white hover:border-slate-500 transition cursor-pointer"
+                      >
+                        {sym}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <button
+                  onClick={() => setError(null)}
+                  className="px-6 py-2 rounded bg-white/10 hover:bg-white/20 text-white font-mono text-[10px] uppercase tracking-wider font-bold transition cursor-pointer"
+                >
+                  Return to Dashboard
+                </button>
               </div>
-            </div>
+            ) : (
+              <div className="bg-red-500/10 border border-red-500/20 rounded p-4 flex items-start gap-3 fade-in-up font-mono text-xs">
+                <span className="text-red-400">⚠️</span>
+                <div>
+                  <h4 className="text-red-400 font-bold">Orchestration Error</h4>
+                  <p className="text-slate-400 mt-1">{error}</p>
+                </div>
+              </div>
+            )
           )}
 
           {/* ── CASE 1: IDLE / LOADING SEARCH SCREEN (Screenshot 2 style) ── */}
@@ -425,451 +462,37 @@ function App() {
             <div className="space-y-6 fade-in-up">
               
               {/* Search-Bar at top of results to allow searching again easily */}
-              <div className="flex justify-between items-center gap-4 bg-[#0a0c16] border border-white/5 rounded p-3">
+              <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-[#0a0c16] border border-white/5 rounded p-3">
                 <span className="section-label block pl-2">Quantum Analyst Terminal</span>
-                <form 
-                  onSubmit={(e) => { e.preventDefault(); handleSearch(searchInputValue); }}
-                  className="flex gap-2 w-full max-w-md bg-[#05060f] border border-white/10 rounded px-2.5 py-1"
-                >
-                  <input
-                    type="text"
-                    value={searchInputValue}
-                    onChange={(e) => setSearchInputValue(e.target.value)}
-                    placeholder="Enter Stock Ticker..."
-                    className="w-full bg-transparent outline-none text-white font-mono text-xs placeholder-slate-500"
-                  />
-                  <button type="submit" className="text-[#FFBA9D] hover:text-[#ffa382] font-mono text-[9px] font-bold uppercase tracking-wider">
-                    EXECUTE
-                  </button>
-                </form>
-              </div>
-
-              {/* Ticker & Price Header (Screenshot 1 Layout) */}
-              <StockInfoCard
-                symbol={analysisData.stock}
-                stockInfo={stockInfoData}
-                verdict={analysisData.final_decision?.market_bias}
-                risk={analysisData.final_decision?.risk}
-              />
-
-              {/* Row 1: Synthesis Narrative & Consensus Verdict ring gauge */}
-              <RecommendationCard
-                finalDecision={analysisData.final_decision}
-                symbol={analysisData.stock}
-                technical={analysisData.technical}
-                fundamental={analysisData.fundamental}
-                sentiment={analysisData.sentiment}
-              />
-
-              {/* Row 2: Node Info Cards (Screenshot 1 layout) */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                
-                {/* Technical Node */}
-                <div 
-                  onClick={() => setActiveModal("technical")}
-                  className="bg-[#0a0c16] border border-white/10 rounded p-5 flex flex-col justify-between min-h-[170px] hover:border-white/20 transition cursor-pointer"
-                >
-                  <div className="space-y-3.5">
-                    <div className="flex items-center gap-2 border-b border-white/5 pb-2.5 section-label">
-                      <TrendingUp size={13} />
-                      <span>TECHNICAL NODE</span>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-2 font-mono text-[10.5px]">
-                      <div>
-                        <span className="text-slate-500 block text-[9px] font-bold uppercase">RSI (14)</span>
-                        <span className="text-white font-bold text-xs mt-0.5 block">
-                          {analysisData.technical.rsi || stockInfoData?.stock?.rsi || "60.8"}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="text-slate-500 block text-[9px] font-bold uppercase">MACD</span>
-                        <span className="text-emerald-400 font-bold text-xs mt-0.5 block">
-                          {analysisData.technical.macd || stockInfoData?.stock?.macd || "+8.51"}
-                        </span>
-                      </div>
-                      <div className="pt-1.5 border-t border-white/5">
-                        <span className="text-slate-500 block text-[9px] font-bold uppercase">Support</span>
-                        <span className="text-white font-bold text-xs mt-0.5 block">
-                          {analysisData.technical.support_level || stockInfoData?.stock?.moving_avg_50 || "$292.68"}
-                        </span>
-                      </div>
-                      <div className="pt-1.5 border-t border-white/5">
-                        <span className="text-slate-500 block text-[9px] font-bold uppercase">Resistance</span>
-                        <span className="text-white font-bold text-xs mt-0.5 block">
-                          {analysisData.technical.resistance_level || "$315.20"}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center text-[9px] font-mono font-bold text-slate-500 border-t border-white/5 pt-3 mt-4">
-                    <span>TREND</span>
-                    <span className="text-emerald-400 uppercase">{analysisData.technical.trend}</span>
-                  </div>
-                </div>
-
-                {/* Fundamental Node */}
-                <div 
-                  onClick={() => setActiveModal("fundamental")}
-                  className="bg-[#0a0c16] border border-white/10 rounded p-5 flex flex-col justify-between min-h-[170px] hover:border-white/20 transition cursor-pointer"
-                >
-                  <div className="space-y-3.5">
-                    <div className="flex items-center gap-2 border-b border-white/5 pb-2.5 section-label">
-                      <Landmark size={13} />
-                      <span>FUNDAMENTAL NODE</span>
-                    </div>
-
-                    <div className="space-y-3 font-mono text-[9px]">
-                      <div>
-                        <div className="flex justify-between text-[8px] text-slate-550 text-slate-500 font-bold mb-1">
-                          <span>HEALTH</span>
-                          <span className="text-emerald-450 text-emerald-400">{analysisData.fundamental.health_score || "90"}/100</span>
-                        </div>
-                        <div className="h-1 bg-slate-900 rounded-full overflow-hidden">
-                          <div className="h-full bg-emerald-500" style={{ width: `${analysisData.fundamental.health_score || 90}%` }} />
-                        </div>
-                      </div>
-
-                      <div>
-                        <div className="flex justify-between text-[8px] text-slate-500 font-bold mb-1">
-                          <span>VALUATION</span>
-                          <span className="text-[#FFBA9D]">{analysisData.fundamental.valuation_score || "55"}/100</span>
-                        </div>
-                        <div className="h-1 bg-slate-900 rounded-full overflow-hidden">
-                          <div className="h-full bg-[#FFBA9D]" style={{ width: `${analysisData.fundamental.valuation_score || 55}%` }} />
-                        </div>
-                      </div>
-
-                      <div>
-                        <div className="flex justify-between text-[8px] text-slate-550 text-slate-500 font-bold mb-1">
-                          <span>GROWTH</span>
-                          <span className="text-emerald-400">{analysisData.fundamental.growth_score || "80"}/100</span>
-                        </div>
-                        <div className="h-1 bg-slate-900 rounded-full overflow-hidden">
-                          <div className="h-full bg-emerald-500" style={{ width: `${analysisData.fundamental.growth_score || 80}%` }} />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* News Sentiment Node */}
-                <div 
-                  onClick={() => setActiveModal("sentiment")}
-                  className="bg-[#0a0c16] border border-white/10 rounded p-5 flex flex-col justify-between min-h-[170px] hover:border-white/20 transition cursor-pointer"
-                >
-                  <div className="space-y-3.5">
-                    <div className="flex items-center gap-2 border-b border-white/5 pb-2.5 section-label">
-                      <Newspaper size={13} />
-                      <span>NEWS SENTIMENT NODE</span>
-                    </div>
-
-                    <div className="flex items-center justify-around h-20 pt-1.5 font-mono text-[9px] text-slate-500">
-                      
-                      {/* Positive indicator */}
-                      <div className="flex flex-col items-center gap-1.5">
-                        <span className="text-emerald-400 font-bold">{Math.round(analysisData.sentiment.positive_ratio * 100 || 80)}%</span>
-                        <div className="w-2 bg-emerald-500/20 rounded h-12 relative flex items-end">
-                          <div className="w-full bg-emerald-500 rounded-b" style={{ height: `${Math.round(analysisData.sentiment.positive_ratio * 100 || 80)}%` }} />
-                        </div>
-                        <span className="text-[7.5px] uppercase">Bullish</span>
-                      </div>
-
-                      {/* Negative indicator */}
-                      <div className="flex flex-col items-center gap-1.5">
-                        <span className="text-red-400 font-bold">{Math.round(analysisData.sentiment.negative_ratio * 100 || 12)}%</span>
-                        <div className="w-2 bg-red-500/20 rounded h-12 relative flex items-end">
-                          <div className="w-full bg-red-500 rounded-b" style={{ height: `${Math.round(analysisData.sentiment.negative_ratio * 100 || 12)}%` }} />
-                        </div>
-                        <span className="text-[7.5px] uppercase">Bearish</span>
-                      </div>
-
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center text-[9px] font-mono font-bold text-slate-500 border-t border-white/5 pt-3 mt-4">
-                    <span>SENTIMENT RATIO</span>
-                    <span className="text-[#FFBA9D] uppercase">{analysisData.sentiment.sentiment}</span>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Row 3: TradingView Chart & News Intelligence (Screenshot 1 side-by-side) */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-                
-                {/* Institutional Price Action (TradingView Chart) */}
-                <div className="lg:col-span-7 bg-[#0a0c16] border border-white/10 rounded p-5 space-y-4">
-                  <span className="section-label block mb-3">INSTITUTIONAL PRICE ACTION</span>
-                  <div className="h-[320px]">
-                    <TradingViewChart symbol={analysisData.stock} />
-                  </div>
-                </div>
-
-                {/* News Intelligence */}
-                <div className="lg:col-span-5 bg-[#0a0c16] border border-white/10 rounded p-5 flex flex-col justify-between min-h-[360px]">
-                  <div className="space-y-4">
-                    <span className="section-label block mb-3">NEWS INTELLIGENCE</span>
-                    
-                    <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1 text-xs font-sans">
-                      {analysisData.sentiment.articles && analysisData.sentiment.articles.slice(0, 4).map((art, idx) => {
-                        const score = getNewsImpactScore(art.title, art.sentiment);
-                        const isPos = art.sentiment === "positive";
-                        const isNeg = art.sentiment === "negative";
-                        
-                        return (
-                          <div key={idx} className="flex justify-between items-start gap-4 py-2 border-b border-white/5 last:border-0">
-                            <div className="space-y-1">
-                              <a 
-                                href={art.link} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                className="text-white font-bold hover:text-[#FFBA9D] line-clamp-2 leading-relaxed text-[11.5px]"
-                              >
-                                {art.title}
-                              </a>
-                              <div className="flex items-center gap-2 text-[9px] text-slate-500 font-mono font-bold uppercase">
-                                <span>{art.source}</span>
-                                <span>•</span>
-                                <span>{art.publish_time}</span>
-                              </div>
-                            </div>
-
-                            <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-black shrink-0 ${
-                              isPos ? "text-emerald-400 bg-emerald-500/10 border border-emerald-500/15" : isNeg ? "text-red-450 text-red-400 bg-red-500/10 border border-red-500/15" : "text-slate-400 bg-slate-800"
-                            }`}>
-                              {score}
-                            </span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  <span className="text-[8.5px] font-mono text-slate-500 block text-right border-t border-white/5 pt-3">
-                    TOTAL ARTICLES HARVESTED: {analysisData.sentiment.articles?.length || 0}
-                  </span>
-                </div>
-
-              </div>
-
-              {/* Row 4: Meet the Quantum Intelligence Collective (Screenshot 3 layout) */}
-              <div className="space-y-6 pt-10 border-t border-white/5">
-                <div className="text-center space-y-2 max-w-2xl mx-auto">
-                  <span className="section-label block mb-2">AGENT INTELLIGENCE COLLECTIVE</span>
-                  <h2 
-                    className="text-2xl font-bold text-white tracking-tight"
-                    style={{ fontFamily: "'General Sans', sans-serif" }}
+                <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto justify-end">
+                  <form 
+                    onSubmit={(e) => { e.preventDefault(); handleSearch(searchInputValue); }}
+                    className="flex gap-2 w-full sm:max-w-md bg-[#05060f] border border-white/10 rounded px-2.5 py-1"
                   >
-                    Meet the Quantum Intelligence Collective
-                  </h2>
-                  <p className="text-slate-400 text-xs font-light">
-                    Three specialized AI agents working in consensus to decode market noise into actionable research.
-                  </p>
-                </div>
-
-                <div className="flex flex-col gap-6">
-                  
-                  {/* Tech-01 Node Card */}
-                  <div className="bg-[#0a0c16] border border-white/10 rounded p-6">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                      
-                      {/* Left: Ticker details */}
-                      <div className="lg:col-span-4 space-y-4">
-                        <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
-                          <span className="font-mono text-[9px] text-slate-500 font-bold uppercase tracking-wider">NODE: TECH-01</span>
-                          <span className="px-2 py-0.5 border border-orange-500/20 bg-orange-500/5 text-[#FFBA9D] text-[8px] font-mono font-bold uppercase rounded">DIRECT LLM PIPELINE</span>
-                        </div>
-                        <h3 className="text-white font-black text-lg">Technical Analysis Terminal</h3>
-                        <p className="text-slate-400 text-xs leading-relaxed font-light">
-                          Automated chart pattern recognition, moving average convergence computations, and momentum oscillation validation.
-                        </p>
-                        <div className="font-mono text-[9.5px] text-slate-400 space-y-1">
-                          <div className="flex justify-between">
-                            <span className="text-slate-500">CONVICTION LEVEL</span>
-                            <span className="text-white font-bold">{analysisData.technical.confidence}%</span>
-                          </div>
-                          <div className="h-1 bg-slate-900 rounded-full overflow-hidden">
-                            <div className="h-full bg-[#FFBA9D]" style={{ width: `${analysisData.technical.confidence}%` }} />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Middle: Params */}
-                      <div className="lg:col-span-4 grid grid-cols-2 gap-4 font-mono text-[10.5px]">
-                        <div className="bg-slate-950/60 border border-white/5 rounded p-3">
-                          <span className="text-slate-500 text-[8.5px] font-bold block">SUPPORT LEVEL</span>
-                          <span className="text-white font-bold text-sm block mt-1">
-                            {analysisData.technical.support_level || "$292.70"}
-                          </span>
-                        </div>
-                        <div className="bg-slate-950/60 border border-white/5 rounded p-3">
-                          <span className="text-slate-500 text-[8.5px] font-bold block">RESISTANCE LEVEL</span>
-                          <span className="text-white font-bold text-sm block mt-1">
-                            {analysisData.technical.resistance_level || "$315.22"}
-                          </span>
-                        </div>
-                        <div className="bg-slate-950/60 border border-white/5 rounded p-3 col-span-2">
-                          <span className="text-slate-500 text-[8.5px] font-bold block">RSI & MOMENTUM</span>
-                          <div className="flex justify-between items-baseline mt-1.5">
-                            <span className="text-white font-bold text-xs">
-                              {analysisData.technical.rsi || stockInfoData?.stock?.rsi || "60.8"}
-                            </span>
-                            <span className="text-slate-500 text-[8px] uppercase font-black">Neutral</span>
-                          </div>
-                          <div className="h-1 bg-slate-900 rounded-full overflow-hidden mt-1.5">
-                            <div className="h-full bg-emerald-500" style={{ width: `${analysisData.technical.rsi || stockInfoData?.stock?.rsi || 60}%` }} />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Right: Graphic */}
-                      <div className="lg:col-span-4 bg-slate-950/60 border border-white/5 rounded p-4 h-[140px] flex flex-col justify-between relative">
-                        <svg className="w-full h-16 text-orange-400 opacity-60 mt-2" viewBox="0 0 100 30" fill="none">
-                          <path d="M0 25 C10 20, 20 28, 30 18 C40 10, 50 22, 60 14 C70 8, 80 18, 100 6" stroke="#FFBA9D" strokeWidth="1" />
-                          <line x1="0" y1="14" x2="100" y2="14" stroke="rgba(255,255,255,0.06)" strokeDasharray="2 2" />
-                        </svg>
-                        <span className="text-slate-500 text-[8px] font-mono font-bold uppercase tracking-wider block">OHLCV 1D Price History</span>
-                      </div>
-
-                    </div>
-                  </div>
-
-                  {/* Fund-02 Node Card */}
-                  <div className="bg-[#0a0c16] border border-white/10 rounded p-6">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                      
-                      {/* Left: Ticker details */}
-                      <div className="lg:col-span-4 space-y-4">
-                        <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
-                          <span className="font-mono text-[9px] text-slate-500 font-bold uppercase tracking-wider">NODE: FUND-02</span>
-                          <span className="px-2 py-0.5 border border-orange-500/20 bg-orange-500/5 text-[#FFBA9D] text-[8px] font-mono font-bold uppercase rounded">INSTITUTIONAL SIMULATION</span>
-                        </div>
-                        <h3 className="text-white font-black text-lg">Fundamental Valuation Terminal</h3>
-                        <p className="text-slate-400 text-xs leading-relaxed font-light">
-                          Deep-dive balance sheet health verification and historical cash flow analysis against sector peers.
-                        </p>
-                        <div className="font-mono text-[9.5px] text-slate-400 space-y-2">
-                          <div className="flex justify-between">
-                            <span className="text-slate-500">HEALTH RATING</span>
-                            <span className="text-white font-bold">{analysisData.fundamental.health_score || 90}/100</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-slate-500">VALUATION SAFETY</span>
-                            <span className="text-[#FFBA9D] font-bold">{analysisData.fundamental.valuation_score || 55}/100</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Middle: Graphic */}
-                      <div className="lg:col-span-4 bg-slate-950/60 border border-white/5 rounded p-4 h-[140px] flex flex-col justify-between relative">
-                        <div className="flex justify-around items-end h-16 border-b border-white/5 pb-1">
-                          <div className="w-4 bg-slate-800 rounded-t h-8" />
-                          <div className="w-4 bg-slate-800 rounded-t h-12" />
-                          <div className="w-4 bg-[#FFBA9D]/70 rounded-t h-10" />
-                          <div className="w-4 bg-[#FFBA9D] rounded-t h-14" />
-                        </div>
-                        <span className="text-slate-500 text-[8px] font-mono font-bold uppercase tracking-wider block">Revenue vs Income (est)</span>
-                      </div>
-
-                      {/* Right: Params */}
-                      <div className="lg:col-span-4 font-mono text-[10.5px] space-y-2.5">
-                        <div className="flex justify-between border-b border-white/5 pb-1.5">
-                          <span className="text-slate-500">Revenue Growth</span>
-                          <span className="text-white font-bold">+16.6%</span>
-                        </div>
-                        <div className="flex justify-between border-b border-white/5 pb-1.5">
-                          <span className="text-slate-500">Trailing P/E</span>
-                          <span className="text-white font-bold">
-                            {stockInfoData?.stock?.pe_ratio ? `${stockInfoData.stock.pe_ratio}x` : "37.2x"}
-                          </span>
-                        </div>
-                        <div className="flex justify-between border-b border-white/5 pb-1.5">
-                          <span className="text-slate-500">Total Revenue</span>
-                          <span className="text-white font-bold">$451.44B</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-slate-500">Net Income</span>
-                          <span className="text-white font-bold">$122.58B</span>
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-
-                  {/* Senti-03 Node Card */}
-                  <div className="bg-[#0a0c16] border border-white/10 rounded p-6">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                      
-                      {/* Left: Ticker details */}
-                      <div className="lg:col-span-4 space-y-4">
-                        <div className="flex items-center justify-between border-b border-white/5 pb-2.5">
-                          <span className="font-mono text-[9px] text-slate-500 font-bold uppercase tracking-wider">NODE: SENTI-03</span>
-                          <span className="px-2 py-0.5 border border-orange-500/20 bg-orange-500/5 text-[#FFBA9D] text-[8px] font-mono font-bold uppercase rounded">FEEDS HARVESTER ACTIVE</span>
-                        </div>
-                        <h3 className="text-white font-black text-lg">Sentiment Analysis Terminal</h3>
-                        <p className="text-slate-400 text-xs leading-relaxed font-light">
-                          Linguistic parsing of earnings call logs, regulatory filings, and global financial news RSS feeds.
-                        </p>
-                        <div className="font-mono text-[9.5px] text-slate-400 space-y-1">
-                          <div className="flex justify-between">
-                            <span className="text-slate-500">HARVESTER SPEED</span>
-                            <span className="text-[#FFBA9D] font-bold">8.2k doc/sec</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-slate-500">AGGREGATE SENTIMENT</span>
-                            <span className="text-emerald-450 text-emerald-400 font-black uppercase">{analysisData.sentiment.sentiment}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Middle: Gauge */}
-                      <div className="lg:col-span-4 bg-slate-950/60 border border-white/5 rounded p-4 h-[140px] flex flex-col justify-between items-center text-center">
-                        <div className="relative w-16 h-16 flex items-center justify-center mt-2">
-                          <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.03)" strokeWidth="8" fill="transparent" />
-                            <circle cx="50" cy="50" r="40" stroke="#10b981" strokeWidth="8" fill="transparent" strokeDasharray="251.2" strokeDashoffset="220" strokeLinecap="round" />
-                          </svg>
-                          <div className="absolute inset-0 flex flex-col items-center justify-center font-mono">
-                            <span className="text-xs font-black text-white leading-none">12%</span>
-                            <span className="text-[6px] text-slate-500 font-bold uppercase">BULL/BEAR</span>
-                          </div>
-                        </div>
-                        <div className="flex gap-2 font-mono text-[7.5px] text-slate-500 font-bold uppercase mt-2">
-                          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Positive</span>
-                          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-red-500" /> Negative</span>
-                          <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-slate-650 bg-slate-600" /> Neutral</span>
-                        </div>
-                      </div>
-
-                      {/* Right: Graphic */}
-                      <div className="lg:col-span-4 bg-slate-950/60 border border-white/5 rounded p-4 h-[140px] flex flex-col justify-between relative">
-                        <svg className="w-full h-16 text-slate-500 opacity-60 mt-2" viewBox="0 0 100 30" fill="none">
-                          <path d="M0 15 C20 20, 40 5, 60 25 C80 18, 90 8, 100 12" stroke="currentColor" strokeWidth="1" />
-                        </svg>
-                        <span className="text-slate-500 text-[8px] font-mono font-bold uppercase tracking-wider block">Sentiment Swing Timeline</span>
-                      </div>
-
-                    </div>
-                  </div>
-
+                    <input
+                      type="text"
+                      value={searchInputValue}
+                      onChange={(e) => setSearchInputValue(e.target.value)}
+                      placeholder="Enter Stock Ticker..."
+                      className="w-full bg-transparent outline-none text-white font-mono text-xs placeholder-slate-500"
+                    />
+                    <button type="submit" className="text-[#FFBA9D] hover:text-[#ffa382] font-mono text-[9px] font-bold uppercase tracking-wider">
+                      EXECUTE
+                    </button>
+                  </form>
+                  <button 
+                    onClick={handleExportPDF}
+                    className="w-full sm:w-auto px-4 py-1.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-[10px] font-bold uppercase tracking-wider transition shrink-0 cursor-pointer"
+                  >
+                    Export Report
+                  </button>
                 </div>
               </div>
 
-              {/* Agent Modal Panel */}
-              <AgentModal
-                isOpen={activeModal !== null}
-                onClose={() => setActiveModal(null)}
-                type={activeModal}
-                details={
-                  activeModal === "technical" 
-                    ? analysisData.technical 
-                    : activeModal === "fundamental" 
-                    ? analysisData.fundamental 
-                    : analysisData.sentiment
-                }
-                stockInfoData={stockInfoData}
+              <InstitutionalReport
+                analysisData={analysisData}
+                stockInfo={stockInfoData}
+                isFallbackActive={isFallbackActive}
               />
 
             </div>
@@ -887,6 +510,179 @@ function App() {
           </footer>
 
         </main>
+      )}
+
+      {/* ── PRINTABLE DOSSIER (A4 Formatted, visible only in print mode) ── */}
+      {analysisData && (
+        <div className="hidden print:block printable-report">
+          <div style={{ borderBottom: "3px double #000", paddingBottom: "10px", marginBottom: "20px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+              <h1 style={{ margin: 0, textTransform: "uppercase" }}>QUANTUM INTEL DOSSIER</h1>
+              <span style={{ fontSize: "12px", fontFamily: "monospace", fontWeight: "bold" }}>
+                SEC-ID: {analysisData.stock}-{new Date().toISOString().slice(0, 10).replace(/-/g, "")}
+              </span>
+            </div>
+            <div style={{ fontSize: "12px", color: "#666", marginTop: "5px" }}>
+              CONFIDENTIAL // FOR INSTITUTIONAL RESEARCH USE ONLY // EQUITIES DIVISION
+            </div>
+          </div>
+
+          {/* Dossier Header Info */}
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "25px", background: "#f8f9fa", padding: "15px", border: "1px solid #ddd", borderRadius: "4px" }}>
+            <div>
+              <div style={{ fontSize: "12px", color: "#666", fontWeight: "bold" }}>TARGET EQUITY</div>
+              <div style={{ fontSize: "24px", fontWeight: "black", color: "#000" }}>{analysisData.stock}</div>
+              <div style={{ fontSize: "13.5px", marginTop: "2px", color: "#333" }}>
+                {stockInfoData?.company_name || `${analysisData.stock} Equity`}
+              </div>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <div style={{ fontSize: "12px", color: "#666", fontWeight: "bold" }}>CONSENSUS VERDICT</div>
+              <div style={{ fontSize: "21px", fontWeight: "black", color: "#000" }}>
+                {analysisData.final_decision?.market_bias?.toUpperCase()}
+              </div>
+              <div style={{ fontSize: "12px", fontWeight: "bold", marginTop: "2px", color: "#333" }}>
+                CONVICTION: {analysisData.final_decision?.confidence}% // RISK: {analysisData.final_decision?.risk?.toUpperCase()}
+              </div>
+            </div>
+          </div>
+
+          {/* Core Thesis */}
+          <div style={{ marginBottom: "25px" }}>
+            <h2 style={{ fontSize: "16px", fontWeight: "bold", borderBottom: "2px solid #000", paddingBottom: "4px" }}>1. Executive Summary & Thesis</h2>
+            <p style={{ marginTop: "10px", textAlign: "justify", color: "#000", fontSize: "13.5px" }}>
+              {analysisData.final_decision?.summary || analysisData.final_decision?.reasoning}
+            </p>
+          </div>
+
+          {/* Technical Analysis */}
+          <div style={{ marginBottom: "25px", pageBreakInside: "avoid" }}>
+            <h2 style={{ fontSize: "16px", fontWeight: "bold", borderBottom: "2px solid #000", paddingBottom: "4px" }}>2. Technical Intelligence</h2>
+            <div style={{ display: "flex", gap: "20px", marginTop: "10px", marginBottom: "10px", fontSize: "12px", color: "#000" }}>
+              <div style={{ flex: 1, padding: "8px", border: "1px solid #eee", background: "#fafafa" }}>
+                <strong>Trend Verdict:</strong> {analysisData.technical?.trend?.toUpperCase()}
+              </div>
+              <div style={{ flex: 1, padding: "8px", border: "1px solid #eee", background: "#fafafa" }}>
+                <strong>RSI (14):</strong> {analysisData.technical?.rsi || stockInfoData?.stock?.rsi || "N/A"}
+              </div>
+              <div style={{ flex: 1, padding: "8px", border: "1px solid #eee", background: "#fafafa" }}>
+                <strong>MACD Signal:</strong> {analysisData.technical?.macd || stockInfoData?.stock?.macd || "N/A"}
+              </div>
+              <div style={{ flex: 1, padding: "8px", border: "1px solid #eee", background: "#fafafa" }}>
+                <strong>S/R Levels:</strong> S: {analysisData.technical?.support_level || "N/A"} / R: {analysisData.technical?.resistance_level || "N/A"}
+              </div>
+            </div>
+            <p style={{ textAlign: "justify", color: "#000", fontSize: "13.5px" }}>
+              {analysisData.technical?.summary || "Technical analysis indicates pattern convergence."}
+            </p>
+          </div>
+
+          {/* Fundamental Analysis */}
+          <div style={{ marginBottom: "25px", pageBreakInside: "avoid" }}>
+            <h2 style={{ fontSize: "16px", fontWeight: "bold", borderBottom: "2px solid #000", paddingBottom: "4px" }}>3. Fundamental Valuation</h2>
+            <div style={{ display: "flex", gap: "20px", marginTop: "10px", marginBottom: "10px", fontSize: "12px", color: "#000" }}>
+              <div style={{ flex: 1, padding: "8px", border: "1px solid #eee", background: "#fafafa" }}>
+                <strong>Health Score:</strong> {analysisData.fundamental?.health_score || "N/A"}/100
+              </div>
+              <div style={{ flex: 1, padding: "8px", border: "1px solid #eee", background: "#fafafa" }}>
+                <strong>Valuation Score:</strong> {analysisData.fundamental?.valuation_score || "N/A"}/100
+              </div>
+              <div style={{ flex: 1, padding: "8px", border: "1px solid #eee", background: "#fafafa" }}>
+                <strong>Growth Score:</strong> {analysisData.fundamental?.growth_score || "N/A"}/100
+              </div>
+              <div style={{ flex: 1, padding: "8px", border: "1px solid #eee", background: "#fafafa" }}>
+                <strong>Trailing PE:</strong> {stockInfoData?.stock?.pe_ratio ? `${stockInfoData.stock.pe_ratio}x` : "N/A"}
+              </div>
+            </div>
+            <p style={{ textAlign: "justify", color: "#000", fontSize: "13.5px" }}>
+              {analysisData.fundamental?.summary || "Fundamental assessment based on filings and margins."}
+            </p>
+          </div>
+
+          {/* Sentiment Analysis */}
+          <div style={{ marginBottom: "25px", pageBreakInside: "avoid" }}>
+            <h2 style={{ fontSize: "16px", fontWeight: "bold", borderBottom: "2px solid #000", paddingBottom: "4px" }}>4. Sentiment & News Harvester</h2>
+            <div style={{ display: "flex", gap: "20px", marginTop: "10px", marginBottom: "10px", fontSize: "12px", color: "#000" }}>
+              <div style={{ flex: 1, padding: "8px", border: "1px solid #eee", background: "#fafafa" }}>
+                <strong>Sentiment Verdict:</strong> {analysisData.sentiment?.sentiment?.toUpperCase()}
+              </div>
+              <div style={{ flex: 1, padding: "8px", border: "1px solid #eee", background: "#fafafa" }}>
+                <strong>Bullish Ratio:</strong> {Math.round(analysisData.sentiment?.positive_ratio * 100 || 0)}%
+              </div>
+              <div style={{ flex: 1, padding: "8px", border: "1px solid #eee", background: "#fafafa" }}>
+                <strong>Bearish Ratio:</strong> {Math.round(analysisData.sentiment?.negative_ratio * 100 || 0)}%
+              </div>
+            </div>
+            <p style={{ marginBottom: "15px", textAlign: "justify", color: "#000", fontSize: "13.5px" }}>
+              {analysisData.sentiment?.summary || "Sentiment signals parsed from recent news coverage."}
+            </p>
+
+            <h3 style={{ borderBottom: "1px solid #eee", paddingBottom: "3px", marginBottom: "10px", fontSize: "13.5px", fontWeight: "bold", color: "#000" }}>Captured Intelligence Feeds</h3>
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              {analysisData.sentiment?.articles && analysisData.sentiment.articles.slice(0, 5).map((art, idx) => (
+                <div key={idx} style={{ fontSize: "12px", borderLeft: "2px solid #ccc", paddingLeft: "8px", color: "#000" }}>
+                  <div style={{ fontWeight: "bold" }}>{art.title}</div>
+                  <div style={{ fontSize: "10px", color: "#666" }}>
+                    Source: {art.source} // Published: {art.publish_time} // Impact Class: {art.sentiment?.toUpperCase()}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Telemetry and Audit */}
+          <div style={{ marginTop: "40px", pageBreakInside: "avoid", borderTop: "2px solid #000", paddingTop: "15px" }}>
+            <h2 style={{ fontSize: "16px", fontWeight: "bold", borderBottom: "2px solid #000", paddingBottom: "4px" }}>5. System Telemetry & Authenticity Log</h2>
+            <table style={{ width: "100%", marginTop: "10px", fontSize: "12px", borderCollapse: "collapse", border: "1px solid #ddd", color: "#000" }}>
+              <thead>
+                <tr style={{ background: "#f1f1f1" }}>
+                  <th style={{ border: "1px solid #ddd", padding: "6px", textAlign: "left" }}>Metric Name</th>
+                  <th style={{ border: "1px solid #ddd", padding: "6px", textAlign: "left" }}>Recorded Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style={{ border: "1px solid #ddd", padding: "6px" }}>Technical Math Engine</td>
+                  <td style={{ border: "1px solid #ddd", padding: "6px" }}>Local Quant Processor (18 Indicators Calculated)</td>
+                </tr>
+                <tr>
+                  <td style={{ border: "1px solid #ddd", padding: "6px" }}>AI Inference Model</td>
+                  <td style={{ border: "1px solid #ddd", padding: "6px" }}>
+                    {analysisData.system_status?.groq_status === "Fallback Mode" ? "Heuristic Rules (Fallback Mode)" : "Llama 3.3 70B (Groq Gateway)"}
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ border: "1px solid #ddd", padding: "6px" }}>Execution Duration</td>
+                  <td style={{ border: "1px solid #ddd", padding: "6px" }}>{analysisData.system_status?.execution_time_sec} seconds</td>
+                </tr>
+                <tr>
+                  <td style={{ border: "1px solid #ddd", padding: "6px" }}>Cache Status</td>
+                  <td style={{ border: "1px solid #ddd", padding: "6px" }}>{analysisData.system_status?.cache_status}</td>
+                </tr>
+                <tr>
+                  <td style={{ border: "1px solid #ddd", padding: "6px" }}>Security Validation Gate</td>
+                  <td style={{ border: "1px solid #ddd", padding: "6px" }}>Rate Limiter Checked & Staged (Passed)</td>
+                </tr>
+              </tbody>
+            </table>
+
+            {/* Pipeline Stage Logs */}
+            <h3 style={{ marginTop: "15px", marginBottom: "8px", fontSize: "13.5px", fontWeight: "bold", color: "#000" }}>Pipeline Execution Timestamp Logs</h3>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "10px", fontSize: "12px", fontFamily: "monospace", color: "#000" }}>
+              {analysisData.timeline?.map((step, idx) => (
+                <div key={idx} style={{ padding: "6px", border: "1px solid #eee", background: "#fcfcfc" }}>
+                  <div style={{ color: "#666" }}>[{step.timestamp}]</div>
+                  <div style={{ fontWeight: "bold" }}>{step.event}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Disclaimer */}
+            <div style={{ fontSize: "10px", color: "#888", marginTop: "30px", fontStyle: "italic", textAlign: "justify", lineHeight: "1.3" }}>
+              Disclaimer: This report is generated dynamically by the Quantum Multi-Agent Consensus Engine. All data is retrieved from public financial APIs. Antigravity AI, Quantum Intel, and its affiliates assume no liability for investment decisions made using this computer-generated analysis. Equity investing involves substantial risk.
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

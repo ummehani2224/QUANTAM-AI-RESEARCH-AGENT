@@ -15,25 +15,33 @@ function SystemStatusCard({ systemStatus }) {
   } = systemStatus;
 
   // Status badge styling helper
-  function getStatusBadge(status) {
+  function getStatusBadge(status, type) {
     const s = status ? status.toLowerCase() : "";
-    if (s === "online" || s === "hit" || s === "active" || s === "ok") {
-      return { text: "Online", color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20", dot: "bg-emerald-500 shadow-emerald-500/40" };
+    if (s === "online" || s === "live" || s === "active" || s === "ok" || s === "hit") {
+      let label = "Active";
+      if (type === "market" || type === "news") label = "Live";
+      if (type === "ai") label = "Online";
+      if (type === "cache") label = "Hit";
+      return { text: label, color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20", dot: "bg-emerald-500 shadow-emerald-500/40" };
     }
-    if (s === "fallback mode" || s === "fallback") {
-      return { text: "Fallback Active", color: "text-amber-400", bg: "bg-amber-500/10 border-amber-500/20", dot: "bg-amber-500 shadow-amber-500/40 animate-pulse" };
-    }
-    if (s === "miss") {
-      return { text: "Bypassed (Miss)", color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20", dot: "bg-blue-500 shadow-blue-500/40" };
+    if (s === "fallback mode" || s === "fallback" || s === "miss" || s === "demo hit" || s === "demo") {
+      let label = "Fallback Active";
+      if (type === "cache") label = "Bypassed (Miss)";
+      if (s === "demo hit" && type === "cache") label = "Demo Hit";
+      if (type === "ai" || type === "consensus") label = "Fallback Mode";
+      return { text: label, color: "text-amber-400", bg: "bg-amber-500/10 border-amber-500/20", dot: "bg-amber-500 shadow-amber-500/40 animate-pulse" };
     }
     return { text: "Offline", color: "text-red-400", bg: "bg-red-500/10 border-red-500/20", dot: "bg-red-500 shadow-red-500/40" };
   }
 
-  const backend = getStatusBadge(backend_status);
-  const groq = getStatusBadge(groq_status);
-  const yfinance = getStatusBadge(yfinance_status);
-  const news = getStatusBadge(news_status);
-  const cache = getStatusBadge(cache_status);
+  const market = getStatusBadge(yfinance_status, "market");
+  const news = getStatusBadge(news_status, "news");
+  const ai = getStatusBadge(groq_status, "ai");
+  const consensus = getStatusBadge(
+    groq_status === "Online" ? "active" : (groq_status === "Fallback Mode" ? "fallback mode" : "offline"), 
+    "consensus"
+  );
+  const cache = getStatusBadge(cache_status, "cache");
 
   return (
     <div className="quantum-card p-5 mb-6 fade-in-up" style={{ animationDelay: "0.1s" }}>
@@ -45,52 +53,52 @@ function SystemStatusCard({ systemStatus }) {
           </h3>
         </div>
         <div className="text-right">
-          <span className="text-slate-500 text-[10px] block">Latency</span>
+          <span className="text-slate-500 text-[10px] block">Execution Time</span>
           <span className="text-xs font-mono font-bold text-blue-400">{execution_time_sec}s</span>
         </div>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-        {/* Backend Node */}
-        <div className={`rounded-xl border ${backend.bg} p-3 flex flex-col justify-between`}>
-          <span className="text-slate-500 text-[10px] font-medium uppercase">Backend API</span>
-          <div className="flex items-center gap-2 mt-1.5">
-            <span className={`w-2 h-2 rounded-full ${backend.dot} shadow-[0_0_8px]`} />
-            <span className={`text-xs font-bold ${backend.color}`}>{backend.text}</span>
+        {/* Market Data */}
+        <div className={`rounded-xl border ${market.bg} p-3 flex flex-col justify-between`}>
+          <span className="text-slate-500 text-[10px] font-medium uppercase">Market Data</span>
+          <div className="flex items-center gap-2 mt-1.5 font-mono">
+            <span className={`w-2 h-2 rounded-full ${market.dot} shadow-[0_0_8px]`} />
+            <span className={`text-xs font-bold ${market.color}`}>{market.text}</span>
           </div>
         </div>
 
-        {/* Groq Node */}
-        <div className={`rounded-xl border ${groq.bg} p-3 flex flex-col justify-between`}>
-          <span className="text-slate-500 text-[10px] font-medium uppercase">Groq LLM Gateway</span>
-          <div className="flex items-center gap-2 mt-1.5">
-            <span className={`w-2 h-2 rounded-full ${groq.dot} shadow-[0_0_8px]`} />
-            <span className={`text-xs font-bold ${groq.color}`}>{groq.text}</span>
-          </div>
-        </div>
-
-        {/* Yahoo Finance Node */}
-        <div className={`rounded-xl border ${yfinance.bg} p-3 flex flex-col justify-between`}>
-          <span className="text-slate-500 text-[10px] font-medium uppercase">Yahoo Finance</span>
-          <div className="flex items-center gap-2 mt-1.5">
-            <span className={`w-2 h-2 rounded-full ${yfinance.dot} shadow-[0_0_8px]`} />
-            <span className={`text-xs font-bold ${yfinance.color}`}>{yfinance.text}</span>
-          </div>
-        </div>
-
-        {/* News Service Node */}
+        {/* News Feed */}
         <div className={`rounded-xl border ${news.bg} p-3 flex flex-col justify-between`}>
-          <span className="text-slate-500 text-[10px] font-medium uppercase">News Harvester</span>
-          <div className="flex items-center gap-2 mt-1.5">
+          <span className="text-slate-550 text-slate-500 text-[10px] font-medium uppercase">News Feed</span>
+          <div className="flex items-center gap-2 mt-1.5 font-mono">
             <span className={`w-2 h-2 rounded-full ${news.dot} shadow-[0_0_8px]`} />
             <span className={`text-xs font-bold ${news.color}`}>{news.text}</span>
           </div>
         </div>
 
-        {/* Cache In-Memory Node */}
+        {/* AI Reasoning */}
+        <div className={`rounded-xl border ${ai.bg} p-3 flex flex-col justify-between`}>
+          <span className="text-slate-505 text-slate-500 text-[10px] font-medium uppercase">AI Reasoning</span>
+          <div className="flex items-center gap-2 mt-1.5 font-mono">
+            <span className={`w-2 h-2 rounded-full ${ai.dot} shadow-[0_0_8px]`} />
+            <span className={`text-xs font-bold ${ai.color}`}>{ai.text}</span>
+          </div>
+        </div>
+
+        {/* Consensus Engine */}
+        <div className={`rounded-xl border ${consensus.bg} p-3 flex flex-col justify-between`}>
+          <span className="text-slate-500 text-[10px] font-medium uppercase">Consensus Engine</span>
+          <div className="flex items-center gap-2 mt-1.5 font-mono">
+            <span className={`w-2 h-2 rounded-full ${consensus.dot} shadow-[0_0_8px]`} />
+            <span className={`text-xs font-bold ${consensus.color}`}>{consensus.text}</span>
+          </div>
+        </div>
+
+        {/* Cache Layer */}
         <div className={`rounded-xl border ${cache.bg} p-3 flex flex-col justify-between col-span-2 sm:col-span-1`}>
-          <span className="text-slate-500 text-[10px] font-medium uppercase">Cache Layer</span>
-          <div className="flex items-center justify-between mt-1.5">
+          <span className="text-slate-500 text-[10px] font-medium uppercase">Cache Status</span>
+          <div className="flex items-center justify-between mt-1.5 font-mono">
             <div className="flex items-center gap-2">
               <span className={`w-2 h-2 rounded-full ${cache.dot} shadow-[0_0_8px]`} />
               <span className={`text-xs font-bold ${cache.color}`}>{cache.text}</span>

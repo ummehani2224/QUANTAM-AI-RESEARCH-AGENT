@@ -2,7 +2,7 @@
 import React from "react";
 import { Cpu, TrendingUp, Landmark, Newspaper, Award, Activity } from "lucide-react";
 
-function AgentCard({ title, icon, verdict, confidence, reason, details, delay = 0, onExpand }) {
+function AgentCard({ title, icon, verdict, confidence, reason, details, delay = 0, onExpand, fallbackActive }) {
   const isTech = title.toLowerCase().includes("technical");
   const isFund = title.toLowerCase().includes("fundamental");
   const isSent = title.toLowerCase().includes("sentiment");
@@ -49,7 +49,18 @@ function AgentCard({ title, icon, verdict, confidence, reason, details, delay = 
             </div>
             <div>
               <h4 className="font-bold text-white text-xs tracking-wider uppercase font-mono">{title.split(" ")[0]} NODE</h4>
-              <p className="text-[10px] text-slate-500 font-mono font-semibold">CO-PROCESSOR</p>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <span className="text-[10px] text-slate-500 font-mono font-semibold">CO-PROCESSOR</span>
+                <span className="text-slate-650 font-mono text-[9px]">•</span>
+                <span className={`flex items-center gap-1 font-mono text-[8.5px] font-bold ${
+                  fallbackActive ? "text-amber-400" : "text-emerald-400"
+                }`}>
+                  <span className={`w-1.5 h-1.5 rounded-full ${
+                    fallbackActive ? "bg-amber-400 animate-pulse" : "bg-emerald-400"
+                  }`} />
+                  {fallbackActive ? "Fallback Mode" : "AI Generated"}
+                </span>
+              </div>
             </div>
           </div>
           <span className={`px-2 py-0.5 rounded border text-[10px] font-bold font-mono tracking-wide ${getVerdictBadgeStyle(verdict)}`}>

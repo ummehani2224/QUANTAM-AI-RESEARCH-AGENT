@@ -42,3 +42,8 @@ Thumbs.db
 # ── Project Outputs ───────────────────────────────────────────────────────────
 Pitch_Decks/
 *.pdf
+
+# ── Agent Workspace ───────────────────────────────────────────────────────────
+brain/
+/quantum_system.log
+/backend/quantum_system.log
